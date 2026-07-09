@@ -2,9 +2,9 @@
   --pull-tab-h: 2.5rem;
   position: fixed;
   right: 0;
-  /* small negative offset + the height bump below covers a hairline gap
-     some browsers leave at the true viewport edge under a fixed element */
-  bottom: -2px;
+  /* tiny negative offset as a rounding-error safety net, on top of the
+     much taller tab padding below which is the real fix for the gap */
+  bottom: -1px;
   left: 0;
   z-index: 50;
   display: flex;
@@ -13,9 +13,12 @@
   color: var(--color-maroon);
   box-shadow: 0 -4px 14px rgba(55, 36, 23, 0.12);
   /* Collapsed by default in plain CSS (no JS, no hydration flash) — only
-     the pull tab stays on-screen. :hover/:focus-within pulls it back up. */
+     the pull tab stays on-screen. :hover/:focus-within pulls it back up.
+     No overshoot in this easing (unlike a bouncy spring curve) — an
+     overshoot briefly pulls the bar past translateY(0), which read as a
+     gap flashing under it before settling. */
   transform: translateY(calc(100% - var(--pull-tab-h)));
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav:hover,
@@ -79,9 +82,10 @@
   gap: 0.15rem;
   /* fixed height regardless of which page's tab is "active" (longer/
      shorter note text) — otherwise the whole bar's height, and so its
-     resting position, shifted slightly page to page */
-  min-height: 4.5rem;
-  padding: 0.5rem 0.5rem 1.5rem;
+     resting position, shifted slightly page to page. Generous bottom
+     padding so the bar comfortably overshoots the true viewport edge. */
+  min-height: 5.5rem;
+  padding: 0.5rem 0.5rem 2.25rem;
   text-align: center;
   border-right: 1px dashed color-mix(in srgb, var(--color-maroon) 35%, transparent);
   transition: background-color 0.2s ease, transform 0.2s ease;

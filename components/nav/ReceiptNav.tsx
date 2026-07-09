@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 import styles from "./ReceiptNav.module.css";
 
 const TABS = [
@@ -14,6 +15,7 @@ const TABS = [
 
 export default function ReceiptNav() {
   const pathname = usePathname();
+  const { startTransition } = useRouteTransition();
 
   // The home page has the shopping cart in its place.
   if (pathname === "/") return null;
@@ -32,6 +34,9 @@ export default function ReceiptNav() {
             <li key={tab.href}>
               <Link
                 href={tab.href}
+                onClick={() => {
+                  if (!active) startTransition();
+                }}
                 className={`${styles.tab} ${active ? styles.tabActive : ""}`}
               >
                 <span className={`font-title text-sm uppercase ${styles.tabLabel}`}>{tab.label}</span>
