@@ -1,0 +1,37 @@
+"use client";
+
+import { useRef } from "react";
+import CartSvg from "@/components/illustrations/svg/CartSvg";
+import TeddyBear from "@/components/illustrations/svg/TeddyBear";
+import Laptop from "@/components/illustrations/svg/Laptop";
+import YarnBall from "@/components/illustrations/svg/YarnBall";
+import Telephone from "@/components/illustrations/svg/Telephone";
+import type { HomePageImages } from "@/lib/sanity/queries";
+import CartItem, { type CartItemData } from "./CartItem";
+
+function buildItems(images: HomePageImages): (CartItemData & { key: string })[] {
+  return [
+    { key: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, x: "18%", y: "28%", floatDelay: 0 },
+    { key: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, x: "60%", y: "24%", floatDelay: 0.4 },
+    { key: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, x: "22%", y: "62%", floatDelay: 0.8 },
+    { key: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, x: "58%", y: "60%", floatDelay: 1.2 },
+  ];
+}
+
+export default function ShoppingCart({ images }: { images: HomePageImages }) {
+  const constraintsRef = useRef<HTMLDivElement>(null);
+  const items = buildItems(images);
+
+  return (
+    <div className="relative aspect-[4/3] w-full max-w-xl">
+      <CartSvg className="absolute inset-0 h-full w-full drop-shadow-xl" />
+      {/* Bounds items are draggable within — matches CartSvg's basket
+          interior (excludes the handle bar and the outer wire rim). */}
+      <div ref={constraintsRef} className="absolute" style={{ inset: "20% 8% 10% 8%" }}>
+        {items.map(({ key, ...item }) => (
+          <CartItem key={key} {...item} constraintsRef={constraintsRef} />
+        ))}
+      </div>
+    </div>
+  );
+}

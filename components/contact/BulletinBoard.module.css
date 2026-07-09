@@ -1,0 +1,253 @@
+.board {
+  position: relative;
+  width: 100%;
+  max-width: 64rem;
+  border-radius: 1.5rem;
+  border: 14px solid var(--color-maroon);
+  background-color: color-mix(in srgb, var(--color-rose) 32%, var(--color-cream));
+  background-image:
+    radial-gradient(color-mix(in srgb, var(--color-maroon) 18%, transparent) 1.5px, transparent 1.5px),
+    radial-gradient(color-mix(in srgb, var(--color-maroon) 12%, transparent) 1.5px, transparent 1.5px);
+  background-size: 22px 22px, 34px 34px;
+  background-position: 0 0, 11px 17px;
+  box-shadow: 0 18px 40px rgba(55, 36, 23, 0.3);
+  padding: 3rem 2.5rem;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 2.25rem 1.75rem;
+}
+
+/* ---- pinned note ---- */
+
+.noteWrapper {
+  position: relative;
+  flex: none;
+}
+
+.pin {
+  position: absolute;
+  top: -0.5rem;
+  left: 50%;
+  z-index: 2;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  background: radial-gradient(circle at 35% 30%, var(--color-cream), var(--color-maroon) 70%);
+  box-shadow: 0 2px 4px rgba(55, 36, 23, 0.4);
+  transform: translateX(-50%);
+}
+
+.paper {
+  position: relative;
+  display: flex;
+  width: 11rem;
+  flex-direction: column;
+  gap: 0.35rem;
+  border-radius: 0.35rem;
+  padding: 0.9rem 1rem 1.1rem;
+  box-shadow: 0 8px 16px rgba(55, 36, 23, 0.22);
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.noteIcon {
+  color: var(--color-maroon);
+}
+
+.notePlatform {
+  color: var(--color-maroon);
+}
+
+.stickyNote {
+  background: var(--color-blush);
+}
+
+.stickyNote::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 0 14px 14px;
+  border-color: transparent transparent color-mix(in srgb, var(--color-rose) 60%, var(--color-maroon)) transparent;
+}
+
+.indexCard {
+  background: var(--color-cream);
+  border: 1px solid var(--color-rose);
+}
+
+.indexCard::before {
+  content: "";
+  position: absolute;
+  top: 1.9rem;
+  right: 0.6rem;
+  left: 0.6rem;
+  border-top: 1.5px solid var(--color-rose);
+  opacity: 0.6;
+}
+
+.miniPoster {
+  width: 12rem;
+  border: 3px solid var(--color-maroon);
+  background: var(--color-rose);
+  color: var(--color-cream);
+  text-align: center;
+  align-items: center;
+  padding: 1.1rem 0.9rem;
+}
+
+.miniPoster .noteIcon,
+.miniPoster .notePlatform {
+  color: var(--color-cream);
+}
+
+.groceryReceipt {
+  width: 9.5rem;
+  background: var(--color-cream);
+  padding-top: 1.1rem;
+  padding-bottom: 1.1rem;
+}
+
+.groceryReceipt::before,
+.groceryReceipt::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 10px;
+  background-image: radial-gradient(circle, var(--color-rose) 55%, transparent 60%);
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: 12px 10px;
+}
+
+.groceryReceipt::before {
+  top: -5px;
+}
+
+.groceryReceipt::after {
+  bottom: -5px;
+}
+
+.notebookPaper {
+  background-color: var(--color-cream);
+  background-image: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 19px,
+      color-mix(in srgb, var(--color-slate) 45%, transparent) 20px
+    ),
+    linear-gradient(to right, transparent 14px, color-mix(in srgb, var(--color-rose) 55%, transparent) 15px, transparent 16px);
+}
+
+/* ---- polaroid ---- */
+
+.polaroidWrapper {
+  position: relative;
+  flex: none;
+}
+
+.polaroid {
+  display: flex;
+  width: 9.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.2rem;
+  background: var(--color-cream);
+  padding: 0.6rem 0.6rem 0.9rem;
+  box-shadow: 0 8px 16px rgba(55, 36, 23, 0.22);
+}
+
+.polaroidPhoto {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.1rem;
+  background: var(--color-blush);
+}
+
+.captionStatic {
+  display: none;
+  text-align: center;
+  color: var(--color-maroon);
+}
+
+@media (hover: none) {
+  .captionStatic {
+    display: block;
+  }
+}
+
+.captionBubble {
+  position: absolute;
+  z-index: 10;
+  transform: translate(-50%, -130%);
+  max-width: 12rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-rose);
+  background: var(--color-cream);
+  padding: 0.4rem 0.75rem;
+  color: var(--color-maroon);
+  box-shadow: 0 6px 14px rgba(55, 36, 23, 0.25);
+  pointer-events: none;
+}
+
+/* ---- scattered decoration ---- */
+
+.decorTapeLeft {
+  position: absolute;
+  top: -14px;
+  left: 8%;
+  width: 5.5rem;
+  transform: rotate(-8deg);
+  pointer-events: none;
+}
+
+.decorTapeRight {
+  position: absolute;
+  top: -12px;
+  right: 10%;
+  width: 5rem;
+  transform: rotate(6deg);
+  pointer-events: none;
+}
+
+.decorDoodle {
+  position: absolute;
+  right: 6%;
+  bottom: 6%;
+  width: 3rem;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 640px) {
+  .board {
+    padding: 2rem 1.25rem;
+  }
+
+  .decorTapeLeft,
+  .decorTapeRight,
+  .decorDoodle {
+    display: none;
+  }
+
+  .grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .noteWrapper,
+  .polaroidWrapper {
+    transform: none !important;
+  }
+}

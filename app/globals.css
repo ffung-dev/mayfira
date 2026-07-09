@@ -21,4 +21,8 @@ body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-body);
+  /* belt-and-suspenders: individual components manage their own overflow
+     (galleries, sidebars, nav), this just guarantees the page itself never
+     grows a horizontal scrollbar if one of them miscalculates. */
+  overflow-x: hidden;
 }
