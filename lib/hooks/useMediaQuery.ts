@@ -1,22 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
-/** Tracks a CSS media query client-side. Starts false (matches SSR), then
- * corrects itself after mount — fine for progressive-enhancement UI like
- * hover affordances, but don't use it to gate anything that must be
- * correct on first paint. */
+function subscribe(query: string, callback: () => void) {
+  const mql = window.matchMedia(query);
+  mql.addEventListener("change", callback);
+  return () => mql.removeEventListener("change", callback);
+}
+
+/** Tracks a CSS media query. Reports `false` on the server/first paint
+ * (there's no real answer yet), then syncs to the real value on mount —
+ * fine for progressive-enhancement UI, not for anything that must be
+ * correct before hydration. */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(false);
-
-  useEffect(() => {
-    const mql = window.matchMedia(query);
-    setMatches(mql.matches);
-
-    const listener = (event: MediaQueryListEvent) => setMatches(event.matches);
-    mql.addEventListener("change", listener);
-    return () => mql.removeEventListener("change", listener);
-  }, [query]);
-
-  return matches;
+  return useSyncExternalStore(
+    (callback) => subscribe(query, callback),
+    () => window.matchMedia(query).matches,
+    () => false,
+  );
 }
