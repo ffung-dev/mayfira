@@ -6,10 +6,13 @@
    source of truth for both CSS and Tailwind classes. */
 @theme inline {
   --color-cream: #fff6ea;
+  --color-cream-dark: #ece1d2;
+  --color-cream-darker: #d8ccbc;
   --color-blush: #ffd3d5;
   --color-rose: #dd7e7e;
   --color-maroon: #702e2e;
   --color-slate: #5e7b9b;
+  --color-tan: #af7857;
   --color-ink: #372417;
 
   --font-title: var(--font-elsie);
