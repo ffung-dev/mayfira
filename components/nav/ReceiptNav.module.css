@@ -105,3 +105,13 @@
   color: var(--color-blush);
   font-size: 0.75rem;
 }
+
+/* 5 equal-width columns get cramped under ~480px — scroll horizontally
+   instead of squeezing text. */
+@media (max-width: 480px) {
+  .tabRow {
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(5.5rem, 1fr);
+    overflow-x: auto;
+  }
+}

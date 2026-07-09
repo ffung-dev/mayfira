@@ -11,10 +11,10 @@ import CartItem, { type CartItemData } from "./CartItem";
 
 function buildItems(images: HomePageImages): (CartItemData & { key: string })[] {
   return [
-    { key: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, x: "18%", y: "28%", floatDelay: 0 },
-    { key: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, x: "60%", y: "24%", floatDelay: 0.4 },
-    { key: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, x: "22%", y: "62%", floatDelay: 0.8 },
-    { key: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, x: "58%", y: "60%", floatDelay: 1.2 },
+    { key: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, x: "18%", y: "28%" },
+    { key: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, x: "60%", y: "24%" },
+    { key: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, x: "22%", y: "62%" },
+    { key: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, x: "58%", y: "60%" },
   ];
 }
 
