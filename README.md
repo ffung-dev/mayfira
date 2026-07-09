@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# mayfira
 
-## Getting Started
+Fiona's personal site — Next.js (App Router, TypeScript) + Tailwind CSS + Motion for animation, content managed through an embedded Sanity Studio.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). The Studio is embedded at [http://localhost:3000/studio](http://localhost:3000/studio).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Dev and build both run on webpack (`next dev --webpack` / `next build --webpack`) rather than Turbopack — Turbopack currently hangs indefinitely compiling the Sanity Studio bundle in this Next/Sanity version combo. If a future Next/Sanity upgrade fixes that, the `--webpack` flags in `package.json`'s `dev`/`build` scripts can be dropped.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment variables
 
-## Learn More
+Copy `.env.example` to `.env.local` and fill in your real Sanity project details once you've created a project (see below):
 
-To learn more about Next.js, take a look at the following resources:
+- `NEXT_PUBLIC_SANITY_PROJECT_ID`
+- `NEXT_PUBLIC_SANITY_DATASET` (defaults to `production`)
+- `NEXT_PUBLIC_SANITY_API_VERSION`
+- `SANITY_API_READ_TOKEN` (only needed if the dataset is private)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Until real values are set, pages render with empty/placeholder states instead of crashing — see `safeFetch` in `lib/sanity/queries.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Content model
 
-## Deploy on Vercel
+Schema lives in `sanity/schemaTypes/`: `project`, `hobby`, `contactNote`, `polaroidPhoto`, plus the `aboutPage` and `homePage` singletons (pinned in `sanity/structure.ts`). Projects/Hobbies/Contact Notes are drag-to-reorder lists in the Studio.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment (Render)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`render.yaml` defines a Node web service (`npm install && npm run build` / `npm start`). After connecting the repo on Render:
+
+1. Set `NEXT_PUBLIC_SANITY_PROJECT_ID` and `SANITY_API_READ_TOKEN` (if used) in the Render dashboard — they're marked `sync: false` in `render.yaml` so they aren't committed.
+2. Add the Render URL (and later the custom domain) to the Sanity project's CORS origins at [manage.sanity.io](https://manage.sanity.io), or Studio API calls will fail cross-origin.
+3. Point the Encira domain's DNS at Render per Render's custom domain instructions.
