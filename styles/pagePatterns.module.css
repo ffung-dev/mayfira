@@ -26,12 +26,6 @@
   );
 }
 
-.hobbies {
-  background-color: var(--color-slate);
-  background-image: radial-gradient(color-mix(in srgb, var(--color-blush) 22%, transparent) 2.5px, transparent 3px);
-  background-size: 22px 22px;
-}
-
 .contact {
   /* awning stripes — fits the "bulletin board by the entrance" framing */
   background-color: var(--color-maroon);
