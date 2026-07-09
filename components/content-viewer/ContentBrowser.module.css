@@ -10,6 +10,7 @@
 .sidebar {
   overflow-y: auto;
   border-radius: 1rem;
+  border: 3px solid var(--color-ink);
   background: color-mix(in srgb, var(--color-maroon) 92%, black);
   padding: 0.75rem;
 }
@@ -32,7 +33,7 @@
   display: block;
   width: 100%;
   border-radius: 0.85rem;
-  border: 1px solid rgba(255, 246, 234, 0.15);
+  border: 2px solid var(--color-ink);
   background: var(--color-blush);
   padding: 0.6rem 0.75rem;
   text-align: left;
@@ -85,6 +86,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 1.25rem;
+  border: 3px solid var(--color-ink);
   background: var(--color-cream);
   box-shadow: 0 12px 30px rgba(55, 36, 23, 0.2);
 }

@@ -10,7 +10,7 @@ export default function AboutContent({ about }: { about: AboutPageData }) {
           {about.photoUrls.map((url, index) => (
             <div
               key={url}
-              className="relative aspect-square w-32 overflow-hidden rounded-2xl border-2 border-rose shadow-md sm:w-full"
+              className="relative aspect-square w-32 overflow-hidden rounded-2xl border-[3px] border-ink shadow-md sm:w-full"
               style={{ transform: `rotate(${(index % 2 === 0 ? -1 : 1) * 3}deg)` }}
             >
               <Image src={url} alt="" fill sizes="200px" className="object-cover" />

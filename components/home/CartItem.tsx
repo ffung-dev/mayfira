@@ -41,16 +41,16 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, constraint
     // Keeping them on separate motion values means drag and the hover
     // animation never fight over x/y.
     //
-    // Navigation uses Motion's onTap, not onDragEnd: onDragEnd only fires
-    // once a drag gesture has actually started (pointer past Motion's
-    // internal move threshold), so a true zero-movement click never
-    // reaches it. onTap is Motion's own tap-vs-pan recognizer and fires
-    // correctly for a click even while `drag` is enabled on the element.
+    // Navigation is on double-click, not single click/tap: Motion's own
+    // tap gesture isn't reliably mutually exclusive with drag (onTap could
+    // still fire after a real drag), so a single-click threshold kept
+    // sending people to a page mid-drag. Double-click is a plain native
+    // browser event, separate from drag's pointer handling — reliable.
     <motion.div
       drag
       dragConstraints={constraintsRef}
       dragElastic={0.15}
-      onTap={() => router.push(href)}
+      onDoubleClick={() => router.push(href)}
       role="link"
       tabIndex={0}
       aria-label={label}

@@ -3,7 +3,7 @@
   width: 100%;
   max-width: 64rem;
   border-radius: 1.5rem;
-  border: 14px solid var(--color-maroon);
+  border: 14px solid var(--color-ink);
   background-color: color-mix(in srgb, var(--color-rose) 32%, var(--color-cream));
   background-image:
     radial-gradient(color-mix(in srgb, var(--color-maroon) 18%, transparent) 1.5px, transparent 1.5px),
@@ -48,6 +48,7 @@
   flex-direction: column;
   gap: 0.35rem;
   border-radius: 0.35rem;
+  border: 2.5px solid var(--color-ink);
   padding: 0.9rem 1rem 1.1rem;
   box-shadow: 0 8px 16px rgba(55, 36, 23, 0.22);
   color: var(--color-ink);
@@ -80,7 +81,6 @@
 
 .indexCard {
   background: var(--color-cream);
-  border: 1px solid var(--color-rose);
 }
 
 .indexCard::before {
@@ -160,6 +160,7 @@
   flex-direction: column;
   gap: 0.5rem;
   border-radius: 0.2rem;
+  border: 2.5px solid var(--color-ink);
   background: var(--color-cream);
   padding: 0.6rem 0.6rem 0.9rem;
   box-shadow: 0 8px 16px rgba(55, 36, 23, 0.22);
