@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(160px, 220px) 1fr;
   gap: 1.25rem;
-  height: min(68dvh, 640px);
+  height: min(78dvh, 760px);
   width: 100%;
   max-width: 72rem;
 }
@@ -134,95 +134,14 @@
   box-shadow: 0 14px 26px rgba(55, 36, 23, 0.3);
 }
 
-.pane {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.5rem;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-}
-
-.galleryImage {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-  border-radius: 0.85rem;
-  background: var(--color-blush);
-}
-
-.body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.richText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  line-height: 1.6;
-}
-
-.tagRow {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.tagList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.tagChip {
-  border-radius: 999px;
-  background: var(--color-blush);
-  padding: 0.25rem 0.7rem;
-  font-size: 0.8rem;
-  color: var(--color-maroon);
-}
-
-.linkList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.linkPill {
-  display: inline-block;
-  border-radius: 999px;
-  border: 1px solid var(--color-rose);
-  padding: 0.35rem 0.9rem;
-  font-size: 0.85rem;
-  color: var(--color-maroon);
-  transition: background-color 0.15s ease;
-}
-
-.linkPill:hover {
-  background: var(--color-blush);
-}
-
-/* Tablet: narrower sidebar, gallery still 3 across but tighter. */
+/* Tablet: narrower sidebar. */
 @media (max-width: 1024px) {
   .browser {
     grid-template-columns: minmax(130px, 170px) 1fr;
   }
 }
 
-/* Mobile: sidebar becomes a horizontally scrollable row above the content,
-   gallery becomes a swipeable single-column carousel. */
+/* Mobile: sidebar becomes a horizontally scrollable row above the content. */
 @media (max-width: 640px) {
   .browser {
     display: flex;
@@ -251,17 +170,5 @@
 
   .contentSlide {
     position: static;
-  }
-
-  .gallery {
-    grid-auto-flow: column;
-    grid-template-columns: none;
-    grid-auto-columns: 85%;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-  }
-
-  .galleryImage {
-    scroll-snap-align: center;
   }
 }

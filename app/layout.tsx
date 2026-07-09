@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Elsie, Homemade_Apple, Karla } from "next/font/google";
 import ReceiptNav from "@/components/nav/ReceiptNav";
+import { RouteTransitionProvider } from "@/components/transition/RouteTransitionContext";
 import "./globals.css";
 
 const elsie = Elsie({
@@ -37,8 +38,10 @@ export default function RootLayout({
       className={`${elsie.variable} ${karla.variable} ${homemadeApple.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <ReceiptNav />
+        <RouteTransitionProvider>
+          {children}
+          <ReceiptNav />
+        </RouteTransitionProvider>
       </body>
     </html>
   );

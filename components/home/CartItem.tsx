@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { ComponentType, RefObject } from "react";
 import { motion, type TargetAndTransition } from "motion/react";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
+import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
 
 export type HoverVariant = "bob" | "spin" | "wiggle" | "none";
@@ -47,6 +48,7 @@ const HOVER_VARIANTS: Record<HoverVariant, TargetAndTransition | undefined> = {
 
 export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVariant, constraintsRef }: CartItemProps) {
   const router = useRouter();
+  const { startTransition } = useRouteTransition();
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
   // Touch devices skip drag/hover entirely — just a plain tappable icon.
@@ -54,7 +56,12 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
   // narrower on phones, so four items still fit without crowding.
   if (!canHover) {
     return (
-      <Link href={href} className="absolute flex flex-col items-center gap-0.5" style={{ left: x, top: y }}>
+      <Link
+        href={href}
+        onClick={() => startTransition()}
+        className="absolute flex flex-col items-center gap-0.5"
+        style={{ left: x, top: y }}
+      >
         <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={56} height={56} className="h-14 w-14 drop-shadow-md" />
         <span className="font-hand text-xs text-maroon">{label}</span>
       </Link>
@@ -75,13 +82,17 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
       drag
       dragConstraints={constraintsRef}
       dragElastic={0.15}
-      onDoubleClick={() => router.push(href)}
+      onDoubleClick={() => {
+        startTransition();
+        router.push(href);
+      }}
       role="link"
       tabIndex={0}
       aria-label={label}
       onKeyDown={(event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
+          startTransition();
           router.push(href);
         }
       }}
