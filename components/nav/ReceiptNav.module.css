@@ -2,15 +2,16 @@
   --pull-tab-h: 2.5rem;
   position: fixed;
   right: 0;
-  bottom: 0;
+  /* small negative offset + the height bump below covers a hairline gap
+     some browsers leave at the true viewport edge under a fixed element */
+  bottom: -2px;
   left: 0;
   z-index: 50;
   display: flex;
   flex-direction: column;
   background: var(--color-cream);
   color: var(--color-maroon);
-  border-top: 3px solid var(--color-ink);
-  box-shadow: 0 -6px 20px rgba(55, 36, 23, 0.25);
+  box-shadow: 0 -4px 14px rgba(55, 36, 23, 0.12);
   /* Collapsed by default in plain CSS (no JS, no hydration flash) — only
      the pull tab stays on-screen. :hover/:focus-within pulls it back up. */
   transform: translateY(calc(100% - var(--pull-tab-h)));
@@ -74,8 +75,13 @@
 .tab {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 0.15rem;
-  padding: 0.85rem 0.5rem 1.1rem;
+  /* fixed height regardless of which page's tab is "active" (longer/
+     shorter note text) — otherwise the whole bar's height, and so its
+     resting position, shifted slightly page to page */
+  min-height: 4.5rem;
+  padding: 0.5rem 0.5rem 1.5rem;
   text-align: center;
   border-right: 1px dashed color-mix(in srgb, var(--color-maroon) 35%, transparent);
   transition: background-color 0.2s ease, transform 0.2s ease;
@@ -100,11 +106,16 @@
 
 .tabLabel {
   letter-spacing: 0.08em;
+  white-space: nowrap;
 }
 
 .tabNote {
+  display: block;
+  overflow: hidden;
   color: var(--color-rose);
   font-size: 0.75rem;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .tabActive .tabNote {

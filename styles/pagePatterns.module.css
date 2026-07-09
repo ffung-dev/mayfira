@@ -1,15 +1,17 @@
 /* Distinct background treatment per content page, so each one reads as its
    own "aisle" rather than four copies of the same cream page. Receipt nav
    stays the lightest cream regardless — these are always darker/more
-   saturated than it so the nav reads as a distinct, lighter object. */
+   saturated than it so the nav reads as a distinct, lighter object.
+   Opacity kept low across the board so the pattern reads as texture, not
+   as competing visual noise against the foreground content. */
 
 .about {
   /* gingham check: two overlapping striped layers, cream where they don't
      overlap, darker where they do */
   background-color: var(--color-cream);
   background-image:
-    linear-gradient(90deg, color-mix(in srgb, var(--color-rose) 35%, transparent) 50%, transparent 50%),
-    linear-gradient(color-mix(in srgb, var(--color-rose) 35%, transparent) 50%, transparent 50%);
+    linear-gradient(90deg, color-mix(in srgb, var(--color-rose) 14%, transparent) 50%, transparent 50%),
+    linear-gradient(color-mix(in srgb, var(--color-rose) 14%, transparent) 50%, transparent 50%);
   background-size: 24px 24px;
 }
 
@@ -17,8 +19,8 @@
   background-color: var(--color-maroon);
   background-image: repeating-linear-gradient(
     135deg,
-    color-mix(in srgb, var(--color-rose) 22%, transparent) 0px,
-    color-mix(in srgb, var(--color-rose) 22%, transparent) 12px,
+    color-mix(in srgb, var(--color-rose) 9%, transparent) 0px,
+    color-mix(in srgb, var(--color-rose) 9%, transparent) 12px,
     transparent 12px,
     transparent 26px
   );
@@ -26,7 +28,7 @@
 
 .hobbies {
   background-color: var(--color-slate);
-  background-image: radial-gradient(color-mix(in srgb, var(--color-blush) 50%, transparent) 2.5px, transparent 3px);
+  background-image: radial-gradient(color-mix(in srgb, var(--color-blush) 22%, transparent) 2.5px, transparent 3px);
   background-size: 22px 22px;
 }
 
@@ -35,8 +37,8 @@
   background-color: var(--color-maroon);
   background-image: repeating-linear-gradient(
     90deg,
-    color-mix(in srgb, var(--color-rose) 60%, var(--color-maroon)) 0px,
-    color-mix(in srgb, var(--color-rose) 60%, var(--color-maroon)) 30px,
+    color-mix(in srgb, var(--color-rose) 22%, var(--color-maroon)) 0px,
+    color-mix(in srgb, var(--color-rose) 22%, var(--color-maroon)) 30px,
     var(--color-maroon) 30px,
     var(--color-maroon) 62px
   );

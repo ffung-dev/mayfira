@@ -4,7 +4,9 @@ import styles from "./ContentBrowser.module.css";
 export default function PlaceholderCard({ message }: { message: string }) {
   return (
     <div className={styles.placeholder}>
-      <HandwrittenLabel className="text-3xl text-maroon sm:text-4xl">{message}</HandwrittenLabel>
+      <div className={styles.foldedCard}>
+        <HandwrittenLabel className="text-xl text-maroon sm:text-2xl">{message}</HandwrittenLabel>
+      </div>
     </div>
   );
 }
