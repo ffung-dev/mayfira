@@ -19,4 +19,10 @@ export const structure: StructureResolver = (S, context) =>
       S.listItem()
         .title("Home Page")
         .child(S.document().schemaType("homePage").documentId("homePage")),
+      S.listItem()
+        .title("Projects Page Settings")
+        .child(S.document().schemaType("projectsPageSettings").documentId("projectsPageSettings")),
+      S.listItem()
+        .title("Hobbies Page Settings")
+        .child(S.document().schemaType("hobbiesPageSettings").documentId("hobbiesPageSettings")),
     ]);

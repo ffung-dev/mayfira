@@ -6,6 +6,8 @@ import contactNote from "./contactNote";
 import polaroidPhoto from "./polaroidPhoto";
 import aboutPage from "./aboutPage";
 import homePage from "./homePage";
+import projectsPageSettings from "./projectsPageSettings";
+import hobbiesPageSettings from "./hobbiesPageSettings";
 
 export const schemaTypes = [
   blockContent,
@@ -16,4 +18,6 @@ export const schemaTypes = [
   polaroidPhoto,
   aboutPage,
   homePage,
+  projectsPageSettings,
+  hobbiesPageSettings,
 ];

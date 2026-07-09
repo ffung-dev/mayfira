@@ -222,6 +222,11 @@ type RawHomePage = {
   orangesBagImage?: SanityImageSource;
   scallionsImage?: SanityImageSource;
   chipBagImage?: SanityImageSource;
+  milkCartonImage?: SanityImageSource;
+  breadLoafImage?: SanityImageSource;
+  eggCartonImage?: SanityImageSource;
+  cannedGoodImage?: SanityImageSource;
+  cerealBoxImage?: SanityImageSource;
   doodleImages?: SanityImageSource[];
   specials?: string[];
 };
@@ -234,6 +239,11 @@ export type HomePageData = {
   orangesBagUrl?: string;
   scallionsUrl?: string;
   chipBagUrl?: string;
+  milkCartonUrl?: string;
+  breadLoafUrl?: string;
+  eggCartonUrl?: string;
+  cannedGoodUrl?: string;
+  cerealBoxUrl?: string;
   doodleUrls: string[];
   specials: string[];
 };
@@ -242,7 +252,9 @@ export async function getHomePageData(): Promise<HomePageData> {
   const doc = await safeFetch<RawHomePage | null>(
     `*[_type == "homePage"][0]{
       teddyBearImage, laptopImage, yarnBallImage, telephoneImage,
-      orangesBagImage, scallionsImage, chipBagImage, doodleImages, specials
+      orangesBagImage, scallionsImage, chipBagImage,
+      milkCartonImage, breadLoafImage, eggCartonImage, cannedGoodImage, cerealBoxImage,
+      doodleImages, specials
     }`,
     null,
   );
@@ -257,7 +269,48 @@ export async function getHomePageData(): Promise<HomePageData> {
     orangesBagUrl: image200(doc.orangesBagImage),
     scallionsUrl: image200(doc.scallionsImage),
     chipBagUrl: image200(doc.chipBagImage),
+    milkCartonUrl: image200(doc.milkCartonImage),
+    breadLoafUrl: image200(doc.breadLoafImage),
+    eggCartonUrl: image200(doc.eggCartonImage),
+    cannedGoodUrl: image200(doc.cannedGoodImage),
+    cerealBoxUrl: image200(doc.cerealBoxImage),
     doodleUrls: (doc.doodleImages ?? []).map((image) => urlFor(image).width(120).height(120).fit("max").url()),
     specials: doc.specials ?? [],
   };
+}
+
+export type ContentPageSettings = {
+  tagText: string;
+  sidebarNote: string;
+};
+
+type RawContentPageSettings = Partial<ContentPageSettings> | null;
+
+const DEFAULT_PROJECTS_SETTINGS: ContentPageSettings = {
+  tagText: "my work",
+  sidebarNote: "always learning, always building ♥",
+};
+
+const DEFAULT_HOBBIES_SETTINGS: ContentPageSettings = {
+  tagText: "for fun",
+  sidebarNote: "always curious, always making ♥",
+};
+
+// GROQ omits fields that were never set rather than nulling them, and the
+// document itself may not exist at all yet — merge per-field against
+// defaults rather than assuming an all-or-nothing shape.
+export async function getProjectsPageSettings(): Promise<ContentPageSettings> {
+  const doc = await safeFetch<RawContentPageSettings>(
+    `*[_type == "projectsPageSettings"][0]{ tagText, sidebarNote }`,
+    null,
+  );
+  return { ...DEFAULT_PROJECTS_SETTINGS, ...doc };
+}
+
+export async function getHobbiesPageSettings(): Promise<ContentPageSettings> {
+  const doc = await safeFetch<RawContentPageSettings>(
+    `*[_type == "hobbiesPageSettings"][0]{ tagText, sidebarNote }`,
+    null,
+  );
+  return { ...DEFAULT_HOBBIES_SETTINGS, ...doc };
 }
