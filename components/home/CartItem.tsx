@@ -14,17 +14,13 @@ export type CartItemData = {
   imageUrl?: string;
   x: string;
   y: string;
-  floatDelay: number;
 };
 
 type CartItemProps = CartItemData & {
   constraintsRef: RefObject<HTMLDivElement | null>;
 };
 
-// Below this drag distance (px), treat the gesture as a click rather than a drag.
-const CLICK_DRAG_THRESHOLD = 6;
-
-export default function CartItem({ href, label, Icon, imageUrl, x, y, floatDelay, constraintsRef }: CartItemProps) {
+export default function CartItem({ href, label, Icon, imageUrl, x, y, constraintsRef }: CartItemProps) {
   const router = useRouter();
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
@@ -41,17 +37,20 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, floatDelay
   }
 
   return (
-    // Outer layer owns drag/position; inner layer owns the idle float and
-    // hover response. Keeping them on separate motion values means the
-    // looping idle animation and the drag gesture never fight over x/y.
+    // Outer layer owns drag/position; inner layer owns the hover wiggle.
+    // Keeping them on separate motion values means drag and the hover
+    // animation never fight over x/y.
+    //
+    // Navigation uses Motion's onTap, not onDragEnd: onDragEnd only fires
+    // once a drag gesture has actually started (pointer past Motion's
+    // internal move threshold), so a true zero-movement click never
+    // reaches it. onTap is Motion's own tap-vs-pan recognizer and fires
+    // correctly for a click even while `drag` is enabled on the element.
     <motion.div
       drag
       dragConstraints={constraintsRef}
       dragElastic={0.15}
-      onDragEnd={(_, info) => {
-        const distance = Math.hypot(info.offset.x, info.offset.y);
-        if (distance < CLICK_DRAG_THRESHOLD) router.push(href);
-      }}
+      onTap={() => router.push(href)}
       role="link"
       tabIndex={0}
       aria-label={label}
@@ -66,9 +65,11 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, floatDelay
     >
       <motion.div
         className="group relative flex flex-col items-center"
-        animate={{ y: [0, -6, 0], rotate: [-3, 3, -3] }}
-        transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", delay: floatDelay }}
-        whileHover={{ y: 0, rotate: 0, scale: 1.15 }}
+        whileHover={{
+          rotate: [0, -6, 6, -6, 0],
+          scale: 1.15,
+          transition: { duration: 1.1, repeat: Infinity, ease: "easeInOut" },
+        }}
       >
         <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={64} height={64} className="h-16 w-16 drop-shadow-md" />
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
