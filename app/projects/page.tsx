@@ -1,11 +1,20 @@
 import Heading from "@/components/ui/Heading";
-import Tagline from "@/components/ui/Tagline";
+import ContentBrowser from "@/components/content-viewer/ContentBrowser";
+import { getProjects } from "@/lib/sanity/queries";
 
-export default function ProjectsPage() {
+export const revalidate = 60;
+
+export default async function ProjectsPage() {
+  const projects = await getProjects();
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-cream px-6 pt-16 pb-24 text-center">
-      <Heading>full-time problem solver, part-time creative</Heading>
-      <Tagline>the sidebar + content browser lands here in a later pass.</Tagline>
+    <main className="flex min-h-screen flex-col items-center gap-8 bg-cream px-6 pt-16 pb-28">
+      <Heading className="text-center">full-time problem solver, part-time creative</Heading>
+      <ContentBrowser
+        items={projects}
+        placeholderMessage="let's look at a project!"
+        techLabel="Technologies used"
+      />
     </main>
   );
 }

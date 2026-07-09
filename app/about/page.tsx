@@ -1,11 +1,23 @@
 import Heading from "@/components/ui/Heading";
-import Tagline from "@/components/ui/Tagline";
+import AboutContent from "@/components/about/AboutContent";
+import { getAboutPage } from "@/lib/sanity/queries";
 
-export default function AboutPage() {
+export const revalidate = 60;
+
+export default async function AboutPage() {
+  const about = await getAboutPage();
+  const heading = about?.heading ?? "it's about time we met!";
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4 bg-cream px-6 pt-16 pb-24 text-center">
-      <Heading>it&rsquo;s about time we met!</Heading>
-      <Tagline>bio content, pulled from Sanity, lands here in a later pass.</Tagline>
+    <main className="flex min-h-screen flex-col items-center gap-10 bg-cream px-6 pt-16 pb-28">
+      <Heading className="text-center">{heading}</Heading>
+      {about ? (
+        <AboutContent about={about} />
+      ) : (
+        <p className="font-hand text-2xl text-maroon/70">
+          bio content is on its way — check back soon!
+        </p>
+      )}
     </main>
   );
 }
