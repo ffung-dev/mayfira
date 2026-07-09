@@ -12,19 +12,23 @@ type ContentBrowserProps = {
   items: ContentItem[];
   placeholderMessage: string;
   techLabel: string;
+  sidebarHeading: string;
+  footerNote: string;
 };
 
-export default function ContentBrowser({ items, placeholderMessage, techLabel }: ContentBrowserProps) {
+export default function ContentBrowser({ items, placeholderMessage, techLabel, sidebarHeading, footerNote }: ContentBrowserProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = items.find((item) => item._id === selectedId) ?? null;
 
   return (
     <div className={styles.browser}>
-      <SidebarTabs items={items} selectedId={selectedId} onSelect={setSelectedId} />
+      <SidebarTabs items={items} selectedId={selectedId} onSelect={setSelectedId} heading={sidebarHeading} footerNote={footerNote} />
       {/* mode="wait": the placeholder's whole fold-then-drop exit finishes
           before the content starts rising, matching "fold flat, drop off,
-          THEN content rises" rather than the two overlapping. */}
-      <div className={styles.contentArea}>
+          THEN content rises" rather than the two overlapping.
+          No cream box at all until something's selected — contentArea
+          only picks up the paper-card look once selected has a value. */}
+      <div className={`${styles.contentArea} ${selected ? styles.contentAreaFilled : ""}`}>
         <AnimatePresence mode="wait" initial={false}>
           {selected ? (
             <motion.div

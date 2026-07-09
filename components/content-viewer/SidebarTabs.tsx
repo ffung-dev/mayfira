@@ -1,19 +1,25 @@
-"use client";
-
 import Image from "next/image";
-import { motion } from "motion/react";
 import type { ContentItem } from "@/lib/sanity/queries";
+import { StarIcon } from "@/components/illustrations/svg/contentIcons";
+import { SparkDoodle, FlowerDoodle } from "@/components/illustrations/svg/doodles";
 import styles from "./ContentBrowser.module.css";
 
 type SidebarTabsProps = {
   items: ContentItem[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  heading: string;
+  footerNote: string;
 };
 
-export default function SidebarTabs({ items, selectedId, onSelect }: SidebarTabsProps) {
+export default function SidebarTabs({ items, selectedId, onSelect, heading, footerNote }: SidebarTabsProps) {
   return (
     <nav className={styles.sidebar} aria-label="entries">
+      <div className={styles.sidebarHeading}>
+        <SparkDoodle className={styles.sidebarHeadingMark} />
+        <span className="font-hand text-lg">{heading}</span>
+        <SparkDoodle className={styles.sidebarHeadingMark} />
+      </div>
       <ul className={styles.tabList}>
         {items.map((item) => {
           const active = item._id === selectedId;
@@ -25,13 +31,7 @@ export default function SidebarTabs({ items, selectedId, onSelect }: SidebarTabs
                 aria-pressed={active}
                 className={`${styles.shelfTab} ${active ? styles.shelfTabActive : ""}`}
               >
-                {active && (
-                  <motion.span
-                    layoutId="shelf-tab-highlight"
-                    className={styles.shelfTabHighlight}
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  />
-                )}
+                {active && <StarIcon className={styles.shelfTabStar} />}
                 <span className={styles.shelfTabContent}>
                   {item.thumbnailUrl ? (
                     <Image
@@ -51,6 +51,10 @@ export default function SidebarTabs({ items, selectedId, onSelect }: SidebarTabs
           );
         })}
       </ul>
+      <div className={styles.sidebarFooter}>
+        <FlowerDoodle className={styles.sidebarFooterDoodle} />
+        <span className={`font-hand text-base ${styles.sidebarFooterText}`}>{footerNote}</span>
+      </div>
     </nav>
   );
 }

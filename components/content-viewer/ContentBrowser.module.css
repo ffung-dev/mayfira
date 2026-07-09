@@ -1,24 +1,44 @@
 .browser {
   display: grid;
-  grid-template-columns: minmax(160px, 220px) 1fr;
+  grid-template-columns: minmax(180px, 240px) 1fr;
   gap: 1.25rem;
   height: min(78dvh, 760px);
   width: 100%;
   max-width: 72rem;
 }
 
+/* Outline only, no fill — the tan border is the whole container, tabs
+   read as loose tape stuck directly onto the page background behind it. */
 .sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
   overflow-y: auto;
   border-radius: 1rem;
-  border: 3px solid var(--color-ink);
-  background: color-mix(in srgb, var(--color-maroon) 92%, black);
-  padding: 0.75rem;
+  border: 2.5px solid var(--color-tan);
+  padding: 1rem 0.85rem;
+}
+
+.sidebarHeading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: var(--color-cream);
+  text-align: center;
+}
+
+.sidebarHeadingMark {
+  width: 0.85rem;
+  height: 0.85rem;
+  flex: none;
+  opacity: 0.7;
 }
 
 .tabList {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.75rem;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -32,30 +52,45 @@
   position: relative;
   display: block;
   width: 100%;
-  border-radius: 0.85rem;
   border: 2px solid var(--color-ink);
-  background: var(--color-blush);
-  padding: 0.6rem 0.75rem;
+  background: var(--color-cream);
+  padding: 0.7rem 0.9rem;
   text-align: left;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  box-shadow: 0 4px 8px rgba(55, 36, 23, 0.15);
+  /* torn-tape corners — irregular, not a clean rectangle */
+  clip-path: polygon(1% 14%, 7% 0%, 93% 4%, 99% 16%, 100% 86%, 92% 100%, 6% 96%, 0% 84%);
+}
+
+.shelfTab:nth-child(odd) {
+  transform: rotate(-0.6deg);
+}
+
+.shelfTab:nth-child(even) {
+  transform: rotate(0.6deg);
 }
 
 .shelfTab:hover {
-  transform: translateY(-2px) rotate(-0.5deg);
-  box-shadow: 0 6px 14px rgba(55, 36, 23, 0.25);
+  transform: translateY(-2px) rotate(0deg);
+  box-shadow: 0 8px 16px rgba(55, 36, 23, 0.25);
 }
 
 .shelfTabActive {
-  background: var(--color-cream);
+  background: var(--color-cream-darker);
 }
 
-.shelfTabHighlight {
+.shelfTabActive:hover {
+  transform: rotate(0deg);
+}
+
+.shelfTabStar {
   position: absolute;
-  inset: 0;
-  border-radius: 0.85rem;
-  border: 2px solid var(--color-rose);
-  pointer-events: none;
+  top: -0.5rem;
+  right: -0.35rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  color: var(--color-rose);
 }
 
 .shelfTabContent {
@@ -82,16 +117,48 @@
   opacity: 0.5;
 }
 
+/* the differently-styled last tape at the bottom of the list — static,
+   not a tab, just a little sign-off note */
+.sidebarFooter {
+  position: relative;
+  margin-top: auto;
+  border: 2px solid var(--color-ink);
+  background: var(--color-cream-dark);
+  padding: 0.75rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(55, 36, 23, 0.15);
+  transform: rotate(-0.8deg);
+  clip-path: polygon(2% 10%, 10% 0%, 90% 5%, 98% 12%, 100% 88%, 90% 100%, 8% 95%, 0% 86%);
+}
+
+.sidebarFooterDoodle {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin: 0 auto 0.3rem;
+  color: var(--color-rose);
+}
+
+.sidebarFooterText {
+  color: var(--color-maroon);
+}
+
 .contentArea {
   position: relative;
   overflow: hidden;
   border-radius: 1.25rem;
-  border: 3px solid var(--color-ink);
-  background: var(--color-cream);
-  box-shadow: 0 12px 30px rgba(55, 36, 23, 0.2);
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
   /* lets the placeholder's rotateX "fold" read as real 3D depth instead
      of a flat squish */
   perspective: 1000px;
+}
+
+/* Once something is selected, the pane becomes a real paper card. Before
+   that, it stays fully transparent — just the folded placeholder card
+   sitting on the page background, no surrounding box. */
+.contentAreaFilled {
+  border: 3px solid var(--color-ink);
+  background: var(--color-cream);
+  box-shadow: 0 12px 30px rgba(55, 36, 23, 0.2);
 }
 
 .contentSlide {
@@ -108,10 +175,10 @@
   padding: 2rem;
 }
 
-/* the idle "placeholder card" — a small folded note card, not a full-pane
-   wash. Two-tone gradient at the midline fakes a horizontal paper crease;
-   the rotateX tilt (applied by the parent .contentSlide in ContentBrowser)
-   sells it as propped open like a tent card. */
+/* the idle "placeholder card" — a small folded note card. Two-tone
+   gradient at the midline fakes a horizontal paper crease; the rotateX
+   tilt (applied by the parent .contentSlide in ContentBrowser) sells it
+   as propped open like a tent card. */
 .foldedCard {
   display: flex;
   width: 13rem;
@@ -125,19 +192,26 @@
   background:
     linear-gradient(
       to bottom,
-      var(--color-cream) 0%,
-      var(--color-cream) 47%,
-      color-mix(in srgb, var(--color-ink) 18%, var(--color-cream)) 50%,
-      var(--color-cream) 53%,
-      var(--color-cream) 100%
+      var(--color-cream-dark) 0%,
+      var(--color-cream-dark) 47%,
+      var(--color-cream-darker) 50%,
+      var(--color-cream-dark) 53%,
+      var(--color-cream-dark) 100%
     );
   box-shadow: 0 14px 26px rgba(55, 36, 23, 0.3);
+}
+
+.foldedCardText {
+  /* the fold is a real 3D rotateX on the parent, so this text is already
+     rendered in true perspective — just nudge it visually to sit inside
+     the tilted panel rather than dead-center */
+  transform: translateY(-4%) rotate(-2deg);
 }
 
 /* Tablet: narrower sidebar. */
 @media (max-width: 1024px) {
   .browser {
-    grid-template-columns: minmax(130px, 170px) 1fr;
+    grid-template-columns: minmax(150px, 190px) 1fr;
   }
 }
 
@@ -150,8 +224,15 @@
   }
 
   .sidebar {
+    flex-direction: row;
+    align-items: center;
     overflow-x: auto;
     overflow-y: hidden;
+  }
+
+  .sidebarHeading {
+    flex: none;
+    writing-mode: horizontal-tb;
   }
 
   .tabList {
@@ -161,6 +242,13 @@
   .shelfTab {
     width: max-content;
     min-width: 8rem;
+  }
+
+  .sidebarFooter {
+    flex: none;
+    width: max-content;
+    min-width: 8rem;
+    margin-top: 0;
   }
 
   .contentArea {

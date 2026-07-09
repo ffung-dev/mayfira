@@ -4,6 +4,7 @@ import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
 import { GithubIcon } from "@/components/illustrations/svg/contactIcons";
 import { ChipIcon, HeartIcon, PersonIcon, StarIcon, TagIcon, ArrowUpRightIcon } from "@/components/illustrations/svg/contentIcons";
 import { FlowerDoodle } from "@/components/illustrations/svg/doodles";
+import Paperclip from "@/components/illustrations/svg/Paperclip";
 import GalleryStrip from "./GalleryStrip";
 import styles from "./ContentPane.module.css";
 
@@ -41,6 +42,7 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
 
       <div className={styles.columns}>
         <div className={styles.aboutColumn}>
+          <span className={styles.aboutPin} aria-hidden />
           <span className={styles.sectionLabel}>
             <TagIcon className={styles.sectionIcon} />
             about this project
@@ -67,6 +69,7 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
         <div className={styles.midColumn}>
           {item.techOrMaterials && item.techOrMaterials.length > 0 && (
             <div className={styles.midSection}>
+              <Paperclip className={styles.midSectionClip} />
               <span className={styles.sectionLabel}>
                 <ChipIcon className={styles.sectionIcon} />
                 {techLabel.toLowerCase()}
@@ -76,6 +79,7 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
           )}
           {item.myRole && (
             <div className={styles.midSection}>
+              <Paperclip className={styles.midSectionClip} />
               <span className={styles.sectionLabel}>
                 <PersonIcon className={styles.sectionIcon} />
                 my role
