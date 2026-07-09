@@ -3,6 +3,18 @@ import type { SanityImageSource } from "@sanity/image-url";
 import { sanityClient } from "./client";
 import { urlFor } from "./image";
 
+/** The Sanity project may not be configured yet (or the API may be briefly
+ * unreachable) — that's a real, expected state during setup, not a bug, so
+ * pages should render their empty/placeholder state instead of 500ing. */
+async function safeFetch<T>(query: string, fallback: T): Promise<T> {
+  try {
+    return await sanityClient.fetch<T>(query);
+  } catch (error) {
+    console.warn(`[sanity] query failed, using fallback: ${query}`, error);
+    return fallback;
+  }
+}
+
 export type ContentLink = { label: string; url: string };
 
 // Shape returned straight out of GROQ, before images are turned into URLs.
@@ -65,15 +77,17 @@ function normalizeContentItem(doc: RawContentItem): ContentItem {
 }
 
 export async function getProjects(): Promise<ContentItem[]> {
-  const docs = await sanityClient.fetch<RawContentItem[]>(
+  const docs = await safeFetch<RawContentItem[]>(
     `*[_type == "project"] | order(orderRank) ${CONTENT_PROJECTION}`,
+    [],
   );
   return docs.map(normalizeContentItem);
 }
 
 export async function getHobbies(): Promise<ContentItem[]> {
-  const docs = await sanityClient.fetch<RawContentItem[]>(
+  const docs = await safeFetch<RawContentItem[]>(
     `*[_type == "hobby"] | order(orderRank) ${CONTENT_PROJECTION}`,
+    [],
   );
   return docs.map(normalizeContentItem);
 }
@@ -91,8 +105,9 @@ export type AboutPageData = {
 };
 
 export async function getAboutPage(): Promise<AboutPageData | null> {
-  const doc = await sanityClient.fetch<RawAboutPage | null>(
+  const doc = await safeFetch<RawAboutPage | null>(
     `*[_type == "aboutPage"][0]{ heading, bio, photos }`,
+    null,
   );
   if (!doc) return null;
   return {
@@ -129,10 +144,11 @@ export type ContactNote = {
 };
 
 export async function getContactNotes(): Promise<ContactNote[]> {
-  const docs = await sanityClient.fetch<RawContactNote[]>(
+  const docs = await safeFetch<RawContactNote[]>(
     `*[_type == "contactNote"] | order(orderRank) {
       _id, platform, value, description, paperStyle, iconKey, iconImage, url, rotationOverride
     }`,
+    [],
   );
   return docs.map((doc) => ({
     _id: doc._id,
@@ -164,8 +180,9 @@ export type PolaroidPhoto = {
 };
 
 export async function getPolaroidPhotos(): Promise<PolaroidPhoto[]> {
-  const docs = await sanityClient.fetch<RawPolaroidPhoto[]>(
+  const docs = await safeFetch<RawPolaroidPhoto[]>(
     `*[_type == "polaroidPhoto"] | order(_createdAt) { _id, image, caption, rotationOverride }`,
+    [],
   );
   return docs.map((doc) => ({
     _id: doc._id,
@@ -173,4 +190,32 @@ export async function getPolaroidPhotos(): Promise<PolaroidPhoto[]> {
     caption: doc.caption,
     rotationOverride: doc.rotationOverride,
   }));
+}
+
+type RawHomePage = {
+  teddyBearImage?: SanityImageSource;
+  laptopImage?: SanityImageSource;
+  yarnBallImage?: SanityImageSource;
+  telephoneImage?: SanityImageSource;
+};
+
+export type HomePageImages = {
+  teddyBearUrl?: string;
+  laptopUrl?: string;
+  yarnBallUrl?: string;
+  telephoneUrl?: string;
+};
+
+export async function getHomePageImages(): Promise<HomePageImages> {
+  const doc = await safeFetch<RawHomePage | null>(
+    `*[_type == "homePage"][0]{ teddyBearImage, laptopImage, yarnBallImage, telephoneImage }`,
+    null,
+  );
+  if (!doc) return {};
+  return {
+    teddyBearUrl: doc.teddyBearImage ? urlFor(doc.teddyBearImage).width(200).height(200).fit("max").url() : undefined,
+    laptopUrl: doc.laptopImage ? urlFor(doc.laptopImage).width(200).height(200).fit("max").url() : undefined,
+    yarnBallUrl: doc.yarnBallImage ? urlFor(doc.yarnBallImage).width(200).height(200).fit("max").url() : undefined,
+    telephoneUrl: doc.telephoneImage ? urlFor(doc.telephoneImage).width(200).height(200).fit("max").url() : undefined,
+  };
 }
