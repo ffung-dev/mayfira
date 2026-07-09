@@ -30,7 +30,7 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, constraint
   if (!canHover) {
     return (
       <Link href={href} className="absolute flex flex-col items-center gap-0.5" style={{ left: x, top: y }}>
-        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={44} height={44} className="h-11 w-11 drop-shadow-md" />
+        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={56} height={56} className="h-14 w-14 drop-shadow-md" />
         <span className="font-hand text-xs text-maroon">{label}</span>
       </Link>
     );
@@ -71,7 +71,7 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, constraint
           transition: { duration: 1.1, repeat: Infinity, ease: "easeInOut" },
         }}
       >
-        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={64} height={64} className="h-16 w-16 drop-shadow-md" />
+        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={96} height={96} className="h-24 w-24 drop-shadow-md" />
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
           {label}
         </span>

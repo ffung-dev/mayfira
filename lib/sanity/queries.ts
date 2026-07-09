@@ -197,25 +197,28 @@ type RawHomePage = {
   laptopImage?: SanityImageSource;
   yarnBallImage?: SanityImageSource;
   telephoneImage?: SanityImageSource;
+  specials?: string[];
 };
 
-export type HomePageImages = {
+export type HomePageData = {
   teddyBearUrl?: string;
   laptopUrl?: string;
   yarnBallUrl?: string;
   telephoneUrl?: string;
+  specials: string[];
 };
 
-export async function getHomePageImages(): Promise<HomePageImages> {
+export async function getHomePageData(): Promise<HomePageData> {
   const doc = await safeFetch<RawHomePage | null>(
-    `*[_type == "homePage"][0]{ teddyBearImage, laptopImage, yarnBallImage, telephoneImage }`,
+    `*[_type == "homePage"][0]{ teddyBearImage, laptopImage, yarnBallImage, telephoneImage, specials }`,
     null,
   );
-  if (!doc) return {};
+  if (!doc) return { specials: [] };
   return {
     teddyBearUrl: doc.teddyBearImage ? urlFor(doc.teddyBearImage).width(200).height(200).fit("max").url() : undefined,
     laptopUrl: doc.laptopImage ? urlFor(doc.laptopImage).width(200).height(200).fit("max").url() : undefined,
     yarnBallUrl: doc.yarnBallImage ? urlFor(doc.yarnBallImage).width(200).height(200).fit("max").url() : undefined,
     telephoneUrl: doc.telephoneImage ? urlFor(doc.telephoneImage).width(200).height(200).fit("max").url() : undefined,
+    specials: doc.specials ?? [],
   };
 }

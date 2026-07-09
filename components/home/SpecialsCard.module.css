@@ -1,0 +1,43 @@
+.card {
+  position: relative;
+  width: min(16rem, 100%);
+  padding: 1.6rem 1.15rem 1.1rem;
+  background-color: var(--color-cream);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 20px,
+    color-mix(in srgb, var(--color-slate) 35%, transparent) 21px
+  );
+  box-shadow: 0 12px 22px rgba(55, 36, 23, 0.3);
+  transform: rotate(-2deg);
+  /* jagged top edge — reads as torn from a notebook rather than cut clean */
+  clip-path: polygon(
+    0% 4%, 5% 0%, 10% 3%, 15% 0%, 20% 4%, 25% 0%, 30% 3%, 35% 0%, 40% 4%, 45% 0%,
+    50% 3%, 55% 0%, 60% 4%, 65% 0%, 70% 3%, 75% 0%, 80% 4%, 85% 0%, 90% 3%, 95% 0%, 100% 4%,
+    100% 100%, 0% 100%
+  );
+}
+
+.paperclip {
+  position: absolute;
+  top: -0.85rem;
+  left: 1.1rem;
+  width: 1.5rem;
+  height: 2.2rem;
+  transform: rotate(-6deg);
+}
+
+.heading {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
