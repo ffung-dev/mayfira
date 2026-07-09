@@ -3,9 +3,11 @@
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { ComponentType, RefObject } from "react";
-import { motion } from "motion/react";
+import { motion, type TargetAndTransition } from "motion/react";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
+
+export type HoverVariant = "bob" | "spin" | "wiggle" | "none";
 
 export type CartItemData = {
   href: string;
@@ -14,13 +16,36 @@ export type CartItemData = {
   imageUrl?: string;
   x: string;
   y: string;
+  hoverVariant: HoverVariant;
 };
 
 type CartItemProps = CartItemData & {
   constraintsRef: RefObject<HTMLDivElement | null>;
 };
 
-export default function CartItem({ href, label, Icon, imageUrl, x, y, constraintsRef }: CartItemProps) {
+// Each loop's first and last keyframe match, so the repeat point is
+// invisible — and each one is written so "return to rest" is a plain
+// interpolation from wherever the pointer left it, not a hard reversal.
+const HOVER_VARIANTS: Record<HoverVariant, TargetAndTransition | undefined> = {
+  bob: {
+    y: [0, -10, 0],
+    scale: 1.15,
+    transition: { duration: 1.4, repeat: Infinity, ease: "easeInOut" },
+  },
+  spin: {
+    rotate: 360,
+    scale: 1.15,
+    transition: { duration: 1.6, repeat: Infinity, ease: "linear" },
+  },
+  wiggle: {
+    rotate: [0, -6, 6, 0],
+    scale: 1.15,
+    transition: { duration: 1, repeat: Infinity, ease: "easeInOut" },
+  },
+  none: { scale: 1.15 },
+};
+
+export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVariant, constraintsRef }: CartItemProps) {
   const router = useRouter();
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
@@ -37,7 +62,7 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, constraint
   }
 
   return (
-    // Outer layer owns drag/position; inner layer owns the hover wiggle.
+    // Outer layer owns drag/position; inner layer owns the hover animation.
     // Keeping them on separate motion values means drag and the hover
     // animation never fight over x/y.
     //
@@ -65,11 +90,11 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, constraint
     >
       <motion.div
         className="group relative flex flex-col items-center"
-        whileHover={{
-          rotate: [0, -6, 6, -6, 0],
-          scale: 1.15,
-          transition: { duration: 1.1, repeat: Infinity, ease: "easeInOut" },
-        }}
+        whileHover={HOVER_VARIANTS[hoverVariant]}
+        // Governs the "leaving hover" animation specifically — a plain
+        // ease back to rest from wherever the loop was interrupted,
+        // instead of inheriting the loop's own transition.
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={96} height={96} className="h-24 w-24 drop-shadow-md" />
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">

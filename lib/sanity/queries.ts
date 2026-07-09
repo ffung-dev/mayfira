@@ -17,6 +17,9 @@ async function safeFetch<T>(query: string, fallback: T): Promise<T> {
 
 export type ContentLink = { label: string; url: string };
 
+type RawCodeLink = { label?: string; icon?: SanityImageSource; url?: string };
+export type CodeLink = { label: string; iconUrl?: string; url: string };
+
 // Shape returned straight out of GROQ, before images are turned into URLs.
 type RawContentItem = {
   _id: string;
@@ -27,7 +30,10 @@ type RawContentItem = {
   description?: PortableTextBlock[];
   date?: string;
   techOrMaterials?: string[];
+  myRole?: string;
+  highlights?: string[];
   links?: ContentLink[];
+  codeLink?: RawCodeLink;
   tags?: string[];
 };
 
@@ -40,7 +46,10 @@ export type ContentItem = {
   description: PortableTextBlock[];
   date?: string;
   techOrMaterials?: string[];
+  myRole?: string;
+  highlights?: string[];
   links?: ContentLink[];
+  codeLink?: CodeLink;
   tags?: string[];
 };
 
@@ -53,7 +62,10 @@ const CONTENT_PROJECTION = `{
   description,
   date,
   techOrMaterials,
+  myRole,
+  highlights,
   links,
+  codeLink,
   tags
 }`;
 
@@ -71,7 +83,17 @@ function normalizeContentItem(doc: RawContentItem): ContentItem {
     description: doc.description ?? [],
     date: doc.date,
     techOrMaterials: doc.techOrMaterials,
+    myRole: doc.myRole,
+    highlights: doc.highlights,
     links: doc.links,
+    codeLink:
+      doc.codeLink?.url
+        ? {
+            label: doc.codeLink.label || "view code",
+            iconUrl: doc.codeLink.icon ? urlFor(doc.codeLink.icon).width(48).height(48).fit("max").url() : undefined,
+            url: doc.codeLink.url,
+          }
+        : undefined,
     tags: doc.tags,
   };
 }
@@ -197,6 +219,10 @@ type RawHomePage = {
   laptopImage?: SanityImageSource;
   yarnBallImage?: SanityImageSource;
   telephoneImage?: SanityImageSource;
+  orangesBagImage?: SanityImageSource;
+  scallionsImage?: SanityImageSource;
+  chipBagImage?: SanityImageSource;
+  doodleImages?: SanityImageSource[];
   specials?: string[];
 };
 
@@ -205,20 +231,33 @@ export type HomePageData = {
   laptopUrl?: string;
   yarnBallUrl?: string;
   telephoneUrl?: string;
+  orangesBagUrl?: string;
+  scallionsUrl?: string;
+  chipBagUrl?: string;
+  doodleUrls: string[];
   specials: string[];
 };
 
 export async function getHomePageData(): Promise<HomePageData> {
   const doc = await safeFetch<RawHomePage | null>(
-    `*[_type == "homePage"][0]{ teddyBearImage, laptopImage, yarnBallImage, telephoneImage, specials }`,
+    `*[_type == "homePage"][0]{
+      teddyBearImage, laptopImage, yarnBallImage, telephoneImage,
+      orangesBagImage, scallionsImage, chipBagImage, doodleImages, specials
+    }`,
     null,
   );
-  if (!doc) return { specials: [] };
+  if (!doc) return { doodleUrls: [], specials: [] };
+  const image200 = (source?: SanityImageSource) =>
+    source ? urlFor(source).width(200).height(200).fit("max").url() : undefined;
   return {
-    teddyBearUrl: doc.teddyBearImage ? urlFor(doc.teddyBearImage).width(200).height(200).fit("max").url() : undefined,
-    laptopUrl: doc.laptopImage ? urlFor(doc.laptopImage).width(200).height(200).fit("max").url() : undefined,
-    yarnBallUrl: doc.yarnBallImage ? urlFor(doc.yarnBallImage).width(200).height(200).fit("max").url() : undefined,
-    telephoneUrl: doc.telephoneImage ? urlFor(doc.telephoneImage).width(200).height(200).fit("max").url() : undefined,
+    teddyBearUrl: image200(doc.teddyBearImage),
+    laptopUrl: image200(doc.laptopImage),
+    yarnBallUrl: image200(doc.yarnBallImage),
+    telephoneUrl: image200(doc.telephoneImage),
+    orangesBagUrl: image200(doc.orangesBagImage),
+    scallionsUrl: image200(doc.scallionsImage),
+    chipBagUrl: image200(doc.chipBagImage),
+    doodleUrls: (doc.doodleImages ?? []).map((image) => urlFor(image).width(120).height(120).fit("max").url()),
     specials: doc.specials ?? [],
   };
 }

@@ -1,35 +1,79 @@
 import { defineField, defineType } from "sanity";
 
 /** Singleton. Optional per-item image overrides for the four cart
- * illustrations — leave any of these blank to keep the coded SVG. */
+ * illustrations, the scattered doodles, and the background cart clutter —
+ * leave any of these blank to keep the coded placeholder. */
 export default defineType({
   name: "homePage",
   title: "Home Page",
   type: "document",
+  groups: [
+    { name: "cartItems", title: "Cart items" },
+    { name: "clutter", title: "Background clutter" },
+    { name: "doodles", title: "Doodles" },
+    { name: "specials", title: "Today's specials" },
+  ],
   fields: [
     defineField({
       name: "teddyBearImage",
       type: "image",
       title: "Teddy bear (About) — custom image",
       options: { hotspot: true },
+      group: "cartItems",
     }),
     defineField({
       name: "laptopImage",
       type: "image",
       title: "Laptop (Projects) — custom image",
       options: { hotspot: true },
+      group: "cartItems",
     }),
     defineField({
       name: "yarnBallImage",
       type: "image",
       title: "Yarn ball (Hobbies) — custom image",
       options: { hotspot: true },
+      group: "cartItems",
     }),
     defineField({
       name: "telephoneImage",
       type: "image",
       title: "Telephone (Contact) — custom image",
       options: { hotspot: true },
+      group: "cartItems",
+    }),
+    defineField({
+      name: "orangesBagImage",
+      type: "image",
+      title: "Bag of oranges — custom image",
+      description: "Purely decorative — sits behind the clickable cart items.",
+      options: { hotspot: true },
+      group: "clutter",
+    }),
+    defineField({
+      name: "scallionsImage",
+      type: "image",
+      title: "Scallions — custom image",
+      description: "Purely decorative — sits behind the clickable cart items.",
+      options: { hotspot: true },
+      group: "clutter",
+    }),
+    defineField({
+      name: "chipBagImage",
+      type: "image",
+      title: "Bag of chips — custom image",
+      description: "Purely decorative — sits behind the clickable cart items.",
+      options: { hotspot: true },
+      group: "clutter",
+    }),
+    defineField({
+      name: "doodleImages",
+      title: "Doodles",
+      description: "Replaces the coded line-art doodles scattered on the homepage, in order, one for one. Leave empty to keep the coded doodles.",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+      validation: (Rule) => Rule.max(6),
+      group: "doodles",
     }),
     defineField({
       name: "specials",
@@ -37,6 +81,7 @@ export default defineType({
       description: "Shown in the notebook-paper note card on the homepage.",
       type: "array",
       of: [{ type: "string" }],
+      group: "specials",
     }),
   ],
 });

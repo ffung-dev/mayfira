@@ -35,7 +35,7 @@ export function contentTypeFields(techFieldTitle: string) {
     defineField({
       name: "description",
       type: "blockContent",
-      title: "Description",
+      title: "About this project",
     }),
     defineField({
       name: "date",
@@ -50,10 +50,50 @@ export function contentTypeFields(techFieldTitle: string) {
       options: { layout: "tags" },
     }),
     defineField({
+      name: "myRole",
+      type: "text",
+      title: "My role",
+      rows: 3,
+    }),
+    defineField({
+      name: "highlights",
+      type: "array",
+      title: "Key highlights",
+      description: "Short bullet points — shown in the highlights card.",
+      of: [{ type: "string" }],
+    }),
+    defineField({
       name: "links",
       type: "array",
       title: "Links",
       of: [{ type: "linkItem" }],
+    }),
+    defineField({
+      name: "codeLink",
+      type: "object",
+      title: "Hanging tab link",
+      description:
+        "The small tab that hangs off the edge of the content card. Leave the URL blank to hide it entirely — it doesn't have to be code, the label/icon are editable too.",
+      fields: [
+        defineField({
+          name: "label",
+          type: "string",
+          title: "Label",
+          initialValue: "view code",
+        }),
+        defineField({
+          name: "icon",
+          type: "image",
+          title: "Icon (optional)",
+          description: "Defaults to a GitHub mark if left blank.",
+        }),
+        defineField({
+          name: "url",
+          type: "url",
+          title: "URL",
+          validation: (Rule) => Rule.uri({ allowRelative: false, scheme: ["http", "https"] }),
+        }),
+      ],
     }),
     defineField({
       name: "tags",
