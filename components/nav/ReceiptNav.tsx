@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import styles from "./ReceiptNav.module.css";
 
 const TABS = [
-  { href: "/", label: "home", note: "you are here!" },
-  { href: "/about", label: "about", note: "my story" },
-  { href: "/projects", label: "projects", note: "what i've built" },
-  { href: "/hobbies", label: "hobbies", note: "what i love" },
-  { href: "/contact", label: "contact", note: "let's connect" },
+  { href: "/", label: "home", defaultNote: "landing..." },
+  { href: "/about", label: "about", defaultNote: "my story" },
+  { href: "/projects", label: "projects", defaultNote: "what i've built" },
+  { href: "/hobbies", label: "hobbies", defaultNote: "what i love" },
+  { href: "/contact", label: "contact", defaultNote: "let's connect" },
 ];
 
 export default function ReceiptNav() {
@@ -27,6 +27,7 @@ export default function ReceiptNav() {
       <ul className={styles.tabRow}>
         {TABS.map((tab) => {
           const active = pathname === tab.href;
+          const note = active ? "you are here!" : tab.defaultNote;
           return (
             <li key={tab.href}>
               <Link
@@ -34,7 +35,7 @@ export default function ReceiptNav() {
                 className={`${styles.tab} ${active ? styles.tabActive : ""}`}
               >
                 <span className={`font-title text-sm uppercase ${styles.tabLabel}`}>{tab.label}</span>
-                <span className={`font-hand ${styles.tabNote}`}>{tab.note}</span>
+                <span className={`font-hand ${styles.tabNote}`}>{note}</span>
               </Link>
             </li>
           );
