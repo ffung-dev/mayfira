@@ -36,7 +36,7 @@ const HOVER_VARIANTS: Record<HoverVariant, TargetAndTransition | undefined> = {
   spin: {
     rotate: 360,
     scale: 1.15,
-    transition: { duration: 1.6, repeat: Infinity, ease: "linear" },
+    transition: { duration: 3.6, repeat: Infinity, ease: "linear" },
   },
   wiggle: {
     rotate: [0, -6, 6, 0],
@@ -52,8 +52,6 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
 
   // Touch devices skip drag/hover entirely — just a plain tappable icon.
-  // Sized smaller than the desktop version since the cart itself is
-  // narrower on phones, so four items still fit without crowding.
   if (!canHover) {
     return (
       <Link
@@ -62,22 +60,18 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
         className="absolute flex flex-col items-center gap-0.5"
         style={{ left: x, top: y }}
       >
-        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={56} height={56} className="h-14 w-14 drop-shadow-md" />
+        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={80} height={80} className="h-20 w-20 drop-shadow-md" />
         <span className="font-hand text-xs text-maroon">{label}</span>
       </Link>
     );
   }
 
   return (
-    // Outer layer owns drag/position; inner layer owns the hover animation.
-    // Keeping them on separate motion values means drag and the hover
-    // animation never fight over x/y.
-    //
-    // Navigation is on double-click, not single click/tap: Motion's own
-    // tap gesture isn't reliably mutually exclusive with drag (onTap could
-    // still fire after a real drag), so a single-click threshold kept
-    // sending people to a page mid-drag. Double-click is a plain native
-    // browser event, separate from drag's pointer handling — reliable.
+    // Outer layer owns drag/position and is the hover-group root; middle
+    // layer (plain div) holds the icon and label as siblings; innermost
+    // motion.div owns ONLY the icon's hover animation. Keeping the label
+    // out of the rotating/bobbing element means a "spin" variant spins
+    // just the icon, not the text floating next to it.
     <motion.div
       drag
       dragConstraints={constraintsRef}
@@ -96,22 +90,23 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
           router.push(href);
         }
       }}
-      className="absolute cursor-grab active:cursor-grabbing"
+      className="group absolute cursor-grab active:cursor-grabbing"
       style={{ left: x, top: y }}
     >
-      <motion.div
-        className="group relative flex flex-col items-center"
-        whileHover={HOVER_VARIANTS[hoverVariant]}
-        // Governs the "leaving hover" animation specifically — a plain
-        // ease back to rest from wherever the loop was interrupted,
-        // instead of inheriting the loop's own transition.
-        transition={{ duration: 0.4, ease: "easeOut" }}
-      >
-        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={96} height={96} className="h-24 w-24 drop-shadow-md" />
+      <div className="relative flex flex-col items-center">
+        <motion.div
+          whileHover={HOVER_VARIANTS[hoverVariant]}
+          // Governs the "leaving hover" animation specifically — a plain
+          // ease back to rest from wherever the loop was interrupted,
+          // instead of inheriting the loop's own transition.
+          transition={{ duration: 0.4, ease: "easeOut" }}
+        >
+          <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={80} height={80} className="h-20 w-20 drop-shadow-md" />
+        </motion.div>
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
           {label}
         </span>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

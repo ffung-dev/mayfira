@@ -17,7 +17,7 @@ export default function CartClutterItem({ Icon, imageUrl, x, y, rotate }: CartCl
       className="pointer-events-none absolute opacity-80"
       style={{ left: x, top: y, transform: `rotate(${rotate}deg)` }}
     >
-      <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt="" width={52} height={52} className="h-13 w-13 drop-shadow-sm" />
+      <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt="" width={80} height={80} className="h-20 w-20 drop-shadow-sm" />
     </div>
   );
 }

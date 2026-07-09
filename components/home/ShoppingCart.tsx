@@ -6,7 +6,16 @@ import TeddyBear from "@/components/illustrations/svg/TeddyBear";
 import Laptop from "@/components/illustrations/svg/Laptop";
 import YarnBall from "@/components/illustrations/svg/YarnBall";
 import Telephone from "@/components/illustrations/svg/Telephone";
-import { ChipBagDoodle, OrangesBagDoodle, ScallionsDoodle } from "@/components/illustrations/svg/clutter";
+import {
+  BreadLoafDoodle,
+  CannedGoodDoodle,
+  CerealBoxDoodle,
+  ChipBagDoodle,
+  EggCartonDoodle,
+  MilkCartonDoodle,
+  OrangesBagDoodle,
+  ScallionsDoodle,
+} from "@/components/illustrations/svg/clutter";
 import type { HomePageData } from "@/lib/sanity/queries";
 import CartItem, { type CartItemData } from "./CartItem";
 import CartClutterItem from "./CartClutterItem";
@@ -21,9 +30,14 @@ function buildItems(images: HomePageData): (CartItemData & { key: string })[] {
 }
 
 const CLUTTER = [
-  { key: "oranges", Icon: OrangesBagDoodle, imageKey: "orangesBagUrl" as const, x: "42%", y: "18%", rotate: -6 },
-  { key: "scallions", Icon: ScallionsDoodle, imageKey: "scallionsUrl" as const, x: "76%", y: "48%", rotate: 8 },
-  { key: "chips", Icon: ChipBagDoodle, imageKey: "chipBagUrl" as const, x: "6%", y: "50%", rotate: -4 },
+  { key: "oranges", Icon: OrangesBagDoodle, imageKey: "orangesBagUrl" as const, x: "38%", y: "4%", rotate: -6 },
+  { key: "bread", Icon: BreadLoafDoodle, imageKey: "breadLoafUrl" as const, x: "82%", y: "8%", rotate: 5 },
+  { key: "eggs", Icon: EggCartonDoodle, imageKey: "eggCartonUrl" as const, x: "2%", y: "6%", rotate: -3 },
+  { key: "scallions", Icon: ScallionsDoodle, imageKey: "scallionsUrl" as const, x: "80%", y: "46%", rotate: 8 },
+  { key: "chips", Icon: ChipBagDoodle, imageKey: "chipBagUrl" as const, x: "2%", y: "46%", rotate: -4 },
+  { key: "milk", Icon: MilkCartonDoodle, imageKey: "milkCartonUrl" as const, x: "38%", y: "80%", rotate: 4 },
+  { key: "canned", Icon: CannedGoodDoodle, imageKey: "cannedGoodUrl" as const, x: "78%", y: "80%", rotate: -5 },
+  { key: "cereal", Icon: CerealBoxDoodle, imageKey: "cerealBoxUrl" as const, x: "40%", y: "42%", rotate: 6 },
 ];
 
 export default function ShoppingCart({ images }: { images: HomePageData }) {
