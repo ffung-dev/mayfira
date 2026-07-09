@@ -21,8 +21,11 @@ export default function ContentBrowser({ items, placeholderMessage, techLabel }:
   return (
     <div className={styles.browser}>
       <SidebarTabs items={items} selectedId={selectedId} onSelect={setSelectedId} />
+      {/* mode="wait": the placeholder's whole fold-then-drop exit finishes
+          before the content starts rising, matching "fold flat, drop off,
+          THEN content rises" rather than the two overlapping. */}
       <div className={styles.contentArea}>
-        <AnimatePresence mode="popLayout" initial={false}>
+        <AnimatePresence mode="wait" initial={false}>
           {selected ? (
             <motion.div
               key={selected._id}
@@ -38,10 +41,14 @@ export default function ContentBrowser({ items, placeholderMessage, techLabel }:
             <motion.div
               key="placeholder"
               className={styles.contentSlide}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
+              initial={{ rotateX: 14, opacity: 0 }}
+              animate={{ rotateX: 14, opacity: 1 }}
+              exit={{
+                rotateX: [14, 0, 0],
+                y: [0, 0, 280],
+                opacity: [1, 1, 0],
+                transition: { duration: 0.6, times: [0, 0.35, 1], ease: "easeInOut" },
+              }}
             >
               <PlaceholderCard message={placeholderMessage} />
             </motion.div>
