@@ -35,7 +35,12 @@ export default function Heading({
       heading.style.fontSize = `${Math.max(minFontSizePx, Math.floor(maxFontSizePx * scale))}px`;
     };
 
+    // Measure at normal letter-spacing first, THEN attach the entrance
+    // animation — tracking-in-expand compresses letter-spacing while it
+    // plays, which would throw off the width measurement if both ran at once.
     fit();
+    heading.classList.add("tracking-in-expand");
+
     const observer = new ResizeObserver(fit);
     observer.observe(container);
     return () => observer.disconnect();
