@@ -31,5 +31,12 @@ export default defineType({
       title: "Telephone (Contact) — custom image",
       options: { hotspot: true },
     }),
+    defineField({
+      name: "specials",
+      title: "Today's Specials",
+      description: "Shown in the notebook-paper note card on the homepage.",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
   ],
 });
