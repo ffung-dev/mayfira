@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: mayfira
+    runtime: node
+    plan: starter
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: NEXT_PUBLIC_SANITY_PROJECT_ID
+        sync: false
+      - key: NEXT_PUBLIC_SANITY_DATASET
+        value: production
+      - key: NEXT_PUBLIC_SANITY_API_VERSION
+        value: "2026-07-08"
+      - key: SANITY_API_READ_TOKEN
+        sync: false
