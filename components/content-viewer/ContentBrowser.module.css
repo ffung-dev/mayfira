@@ -1,0 +1,238 @@
+.browser {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: 1.25rem;
+  height: min(68dvh, 640px);
+  width: 100%;
+  max-width: 72rem;
+}
+
+.sidebar {
+  overflow-y: auto;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--color-maroon) 92%, black);
+  padding: 0.75rem;
+}
+
+.tabList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tabItem {
+  flex: none;
+}
+
+.shelfTab {
+  position: relative;
+  display: block;
+  width: 100%;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 246, 234, 0.15);
+  background: var(--color-blush);
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.shelfTab:hover {
+  transform: translateY(-2px) rotate(-0.5deg);
+  box-shadow: 0 6px 14px rgba(55, 36, 23, 0.25);
+}
+
+.shelfTabActive {
+  background: var(--color-cream);
+}
+
+.shelfTabHighlight {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.85rem;
+  border: 2px solid var(--color-rose);
+  pointer-events: none;
+}
+
+.shelfTabContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--color-maroon);
+}
+
+.shelfThumb {
+  border-radius: 0.5rem;
+  object-fit: cover;
+  flex: none;
+}
+
+.shelfThumbFallback {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  flex: none;
+  border-radius: 0.5rem;
+  background: var(--color-rose);
+  opacity: 0.5;
+}
+
+.contentArea {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background: var(--color-cream);
+  box-shadow: 0 12px 30px rgba(55, 36, 23, 0.2);
+}
+
+.contentSlide {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+}
+
+.placeholder {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  background: color-mix(in srgb, var(--color-rose) 70%, transparent);
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.galleryImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 0.85rem;
+  background: var(--color-blush);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.richText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  line-height: 1.6;
+}
+
+.tagRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tagChip {
+  border-radius: 999px;
+  background: var(--color-blush);
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  color: var(--color-maroon);
+}
+
+.linkList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.linkPill {
+  display: inline-block;
+  border-radius: 999px;
+  border: 1px solid var(--color-rose);
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  color: var(--color-maroon);
+  transition: background-color 0.15s ease;
+}
+
+.linkPill:hover {
+  background: var(--color-blush);
+}
+
+/* Tablet: narrower sidebar, gallery still 3 across but tighter. */
+@media (max-width: 1024px) {
+  .browser {
+    grid-template-columns: minmax(130px, 170px) 1fr;
+  }
+}
+
+/* Mobile: sidebar becomes a horizontally scrollable row above the content,
+   gallery becomes a swipeable single-column carousel. */
+@media (max-width: 640px) {
+  .browser {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .tabList {
+    flex-direction: row;
+  }
+
+  .shelfTab {
+    width: max-content;
+    min-width: 8rem;
+  }
+
+  .contentArea {
+    position: static;
+    min-height: 60dvh;
+  }
+
+  .contentSlide {
+    position: static;
+  }
+
+  .gallery {
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: 85%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .galleryImage {
+    scroll-snap-align: center;
+  }
+}
