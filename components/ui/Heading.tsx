@@ -18,8 +18,8 @@ export default function Heading({
   children,
   as: Tag = "h1",
   className = "",
-  maxFontSizePx = 52,
-  minFontSizePx = 15,
+  maxFontSizePx = 30,
+  minFontSizePx = 14,
 }: HeadingProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -45,7 +45,7 @@ export default function Heading({
     <div ref={containerRef} className="w-full">
       <Tag
         ref={headingRef}
-        className={`font-title font-black text-3xl leading-tight whitespace-nowrap sm:text-4xl lg:text-5xl ${className}`}
+        className={`font-title font-black text-xl leading-tight whitespace-nowrap sm:text-2xl lg:text-3xl ${className}`}
       >
         {children}
       </Tag>
