@@ -1,0 +1,90 @@
+.nav {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-maroon);
+  color: var(--color-cream);
+  box-shadow: 0 -6px 20px rgba(55, 36, 23, 0.25);
+}
+
+/* the little strip that pokes above the fold when the nav is tucked away */
+.pullTab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 2.5rem;
+  cursor: pointer;
+}
+
+.pullTab::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 0;
+  left: 0;
+  height: 12px;
+  background-image: radial-gradient(circle, var(--color-cream) 2.5px, transparent 3px);
+  background-position: center;
+  background-repeat: repeat-x;
+  background-size: 16px 12px;
+}
+
+.chevron {
+  display: inline-block;
+  border-top: 5px solid var(--color-cream);
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  opacity: 0.8;
+}
+
+.tabRow {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px dashed rgba(255, 246, 234, 0.35);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.85rem 0.5rem 1.1rem;
+  text-align: center;
+  border-right: 1px dashed rgba(255, 246, 234, 0.35);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tab:last-child {
+  border-right: none;
+}
+
+.tab:hover {
+  background: rgba(255, 246, 234, 0.08);
+  transform: translateY(-2px);
+}
+
+.tabActive {
+  background: var(--color-rose);
+}
+
+.tabActive:hover {
+  background: var(--color-rose);
+}
+
+.tabLabel {
+  letter-spacing: 0.08em;
+}
+
+.tabNote {
+  color: var(--color-blush);
+  font-size: 0.75rem;
+}
