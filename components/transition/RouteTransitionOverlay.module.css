@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-blush), var(--color-cream));
+  background: linear-gradient(to bottom, var(--color-blush), var(--color-rose));
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -16,39 +16,35 @@
   pointer-events: auto;
 }
 
-/* Adapted from a bouncing-ball loader — trail in maroon, ball in rose. */
+/* Three bars filling up in a staggered wave. */
 .loader {
-  height: 50px;
-  aspect-ratio: 2;
-  border-bottom: 3px solid #0000;
-  background: linear-gradient(90deg, var(--color-maroon) 50%, #0000 0) -25% 100% / 50% 3px repeat-x border-box;
-  position: relative;
-  animation: trail 0.75s linear infinite;
-}
-
-.loader::before {
-  content: "";
-  position: absolute;
-  inset: auto 42.5% 0;
+  --c: no-repeat linear-gradient(var(--color-maroon) 0 0);
+  width: 45px;
   aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--color-rose);
-  animation: bounce 0.75s cubic-bezier(0, 900, 1, 900) infinite;
+  background:
+    var(--c) 0% 100%,
+    var(--c) 50% 100%,
+    var(--c) 100% 100%;
+  animation: loaderWave 1s infinite linear;
 }
 
-@keyframes trail {
-  to {
-    background-position: -125% 100%;
+@keyframes loaderWave {
+  0% {
+    background-size: 20% 100%, 20% 100%, 20% 100%;
   }
-}
-
-@keyframes bounce {
-  0%,
-  2% {
-    bottom: 0%;
+  20% {
+    background-size: 20% 60%, 20% 100%, 20% 100%;
   }
-  98%,
-  to {
-    bottom: 0.1%;
+  40% {
+    background-size: 20% 80%, 20% 60%, 20% 100%;
+  }
+  60% {
+    background-size: 20% 100%, 20% 80%, 20% 60%;
+  }
+  80% {
+    background-size: 20% 100%, 20% 100%, 20% 80%;
+  }
+  100% {
+    background-size: 20% 100%, 20% 100%, 20% 100%;
   }
 }
