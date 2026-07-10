@@ -279,38 +279,75 @@ export async function getHomePageData(): Promise<HomePageData> {
   };
 }
 
-export type ContentPageSettings = {
-  tagText: string;
-  sidebarNote: string;
+export type ClipboardStickerUrls = {
+  clipboardStickerOneUrl?: string;
+  clipboardStickerTwoUrl?: string;
+  clipboardStickerThreeUrl?: string;
+  clipboardStickerFourUrl?: string;
 };
 
-type RawContentPageSettings = Partial<ContentPageSettings> | null;
+export type ContentPageSettings = ClipboardStickerUrls & {
+  tagText: string;
+  sidebarNote: string;
+  stickerUrl?: string;
+};
 
-const DEFAULT_PROJECTS_SETTINGS: ContentPageSettings = {
-  tagText: "my work",
+type RawContentPageSettings = {
+  tagText?: string;
+  sidebarNote?: string;
+  stickerImage?: SanityImageSource;
+  clipboardStickerOne?: SanityImageSource;
+  clipboardStickerTwo?: SanityImageSource;
+  clipboardStickerThree?: SanityImageSource;
+  clipboardStickerFour?: SanityImageSource;
+} | null;
+
+const PAGE_SETTINGS_PROJECTION = `{
+  tagText, sidebarNote, stickerImage,
+  clipboardStickerOne, clipboardStickerTwo, clipboardStickerThree, clipboardStickerFour
+}`;
+
+const DEFAULT_PROJECTS_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls | "stickerUrl"> = {
+  tagText: "collect moments, not things.",
   sidebarNote: "always learning, always building ♥",
 };
 
-const DEFAULT_HOBBIES_SETTINGS: ContentPageSettings = {
-  tagText: "for fun",
+const DEFAULT_HOBBIES_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls | "stickerUrl"> = {
+  tagText: "collect hobbies, not things.",
   sidebarNote: "always curious, always making ♥",
 };
 
+function normalizePageSettings(
+  doc: RawContentPageSettings,
+  defaults: Omit<ContentPageSettings, keyof ClipboardStickerUrls | "stickerUrl">,
+): ContentPageSettings {
+  const image = (source?: SanityImageSource) =>
+    source ? urlFor(source).width(160).height(160).fit("max").url() : undefined;
+  return {
+    tagText: doc?.tagText ?? defaults.tagText,
+    sidebarNote: doc?.sidebarNote ?? defaults.sidebarNote,
+    stickerUrl: image(doc?.stickerImage),
+    clipboardStickerOneUrl: image(doc?.clipboardStickerOne),
+    clipboardStickerTwoUrl: image(doc?.clipboardStickerTwo),
+    clipboardStickerThreeUrl: image(doc?.clipboardStickerThree),
+    clipboardStickerFourUrl: image(doc?.clipboardStickerFour),
+  };
+}
+
 // GROQ omits fields that were never set rather than nulling them, and the
-// document itself may not exist at all yet — merge per-field against
-// defaults rather than assuming an all-or-nothing shape.
+// document itself may not exist at all yet — normalize handles both.
 export async function getProjectsPageSettings(): Promise<ContentPageSettings> {
   const doc = await safeFetch<RawContentPageSettings>(
-    `*[_type == "projectsPageSettings"][0]{ tagText, sidebarNote }`,
+    `*[_type == "projectsPageSettings"][0]${PAGE_SETTINGS_PROJECTION}`,
     null,
   );
-  return { ...DEFAULT_PROJECTS_SETTINGS, ...doc };
+  return normalizePageSettings(doc, DEFAULT_PROJECTS_SETTINGS);
 }
 
 export async function getHobbiesPageSettings(): Promise<ContentPageSettings> {
   const doc = await safeFetch<RawContentPageSettings>(
-    `*[_type == "hobbiesPageSettings"][0]{ tagText, sidebarNote }`,
+    `*[_type == "hobbiesPageSettings"][0]${PAGE_SETTINGS_PROJECTION}`,
     null,
   );
-  return { ...DEFAULT_HOBBIES_SETTINGS, ...doc };
+  return normalizePageSettings(doc, DEFAULT_HOBBIES_SETTINGS);
 }
