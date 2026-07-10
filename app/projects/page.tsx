@@ -15,14 +15,14 @@ export default async function ProjectsPage() {
         <div className="min-w-0 flex-1">
           <Heading className="text-center text-cream">full-time problem solver, part-time creative</Heading>
         </div>
-        <PageTag text={settings.tagText} />
+        <PageTag text={settings.tagText} stickerUrl={settings.stickerUrl} />
       </div>
       <ContentBrowser
         items={projects}
-        placeholderMessage="let's look at a project!"
         techLabel="Technologies used"
         sidebarHeading="pick a project"
         footerNote={settings.sidebarNote}
+        clipboardStickers={settings}
       />
     </main>
   );

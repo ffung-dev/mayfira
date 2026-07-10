@@ -15,14 +15,14 @@ export default async function HobbiesPage() {
         <div className="min-w-0 flex-1">
           <Heading className="text-center text-cream">avid hobbyist who collects hobbies</Heading>
         </div>
-        <PageTag text={settings.tagText} />
+        <PageTag text={settings.tagText} stickerUrl={settings.stickerUrl} />
       </div>
       <ContentBrowser
         items={hobbies}
-        placeholderMessage="pick a hobby, any hobby…"
         techLabel="Materials used"
         sidebarHeading="pick a hobby"
         footerNote={settings.sidebarNote}
+        clipboardStickers={settings}
       />
     </main>
   );

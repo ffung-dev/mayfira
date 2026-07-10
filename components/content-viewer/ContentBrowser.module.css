@@ -147,13 +147,10 @@
   overflow: hidden;
   border-radius: 1.25rem;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-  /* lets the placeholder's rotateX "fold" read as real 3D depth instead
-     of a flat squish */
-  perspective: 1000px;
 }
 
 /* Once something is selected, the pane becomes a real paper card. Before
-   that, it stays fully transparent — just the folded placeholder card
+   that, it stays fully transparent — just the clipboard placeholder
    sitting on the page background, no surrounding box. */
 .contentAreaFilled {
   border: 3px solid var(--color-ink);
@@ -173,39 +170,6 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-}
-
-/* the idle "placeholder card" — a small folded note card. Two-tone
-   gradient at the midline fakes a horizontal paper crease; the rotateX
-   tilt (applied by the parent .contentSlide in ContentBrowser) sells it
-   as propped open like a tent card. */
-.foldedCard {
-  display: flex;
-  width: 13rem;
-  aspect-ratio: 4 / 3;
-  align-items: center;
-  justify-content: center;
-  padding: 1.25rem;
-  text-align: center;
-  border-radius: 0.75rem;
-  border: 3px solid var(--color-ink);
-  background:
-    linear-gradient(
-      to bottom,
-      var(--color-cream-dark) 0%,
-      var(--color-cream-dark) 47%,
-      var(--color-cream-darker) 50%,
-      var(--color-cream-dark) 53%,
-      var(--color-cream-dark) 100%
-    );
-  box-shadow: 0 14px 26px rgba(55, 36, 23, 0.3);
-}
-
-.foldedCardText {
-  /* the fold is a real 3D rotateX on the parent, so this text is already
-     rendered in true perspective — just nudge it visually to sit inside
-     the tilted panel rather than dead-center */
-  transform: translateY(-4%) rotate(-2deg);
 }
 
 /* Tablet: narrower sidebar. */

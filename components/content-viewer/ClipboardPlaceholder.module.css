@@ -1,0 +1,64 @@
+.board {
+  position: relative;
+  width: min(24rem, 92%);
+  aspect-ratio: 3 / 4;
+  border-radius: 0.7rem;
+  background: linear-gradient(160deg, #c8996f 0%, #ac7a4f 55%, #93683f 100%);
+  box-shadow: 0 18px 34px rgba(55, 36, 23, 0.4);
+  padding: 2.5rem 1.1rem 1.1rem;
+}
+
+.clip {
+  position: absolute;
+  top: -0.6rem;
+  left: 50%;
+  z-index: 2;
+  width: 5.5rem;
+  height: 2.4rem;
+  transform: translateX(-50%);
+}
+
+.clipBody {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.35rem;
+  background: linear-gradient(180deg, #e2e2e6, #9a9aa4);
+  border: 1px solid #6d6d75;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.clipRivet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: #6d6d75;
+  transform: translate(-50%, -50%);
+}
+
+.paper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.3rem;
+  background: var(--color-cream);
+  box-shadow: 0 4px 10px rgba(55, 36, 23, 0.3), inset 0 0 0 1px rgba(55, 36, 23, 0.08);
+}
+
+.paperText {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  z-index: 0;
+  width: 78%;
+  text-align: center;
+  transform: translate(-50%, -50%) rotate(-2deg);
+}
+
+@media (max-width: 640px) {
+  .board {
+    width: min(20rem, 88%);
+  }
+}
