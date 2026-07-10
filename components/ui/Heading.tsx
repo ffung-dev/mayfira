@@ -61,7 +61,7 @@ export default function Heading({
           this class is only ever seen before that. */}
       <Tag
         ref={headingRef}
-        className={`font-title font-black text-xl leading-tight whitespace-nowrap opacity-0 sm:text-2xl lg:text-3xl ${className}`}
+        className={`font-title font-normal text-xl leading-tight whitespace-nowrap opacity-0 sm:text-2xl lg:text-3xl ${className}`}
       >
         {children}
       </Tag>
