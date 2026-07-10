@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import type { ContentItem } from "@/lib/sanity/queries";
 import { StarIcon } from "@/components/illustrations/svg/contentIcons";
 import { SparkDoodle, FlowerDoodle } from "@/components/illustrations/svg/doodles";
+import FitText from "@/components/ui/FitText";
 import styles from "./ContentBrowser.module.css";
 
 type SidebarTabsProps = {
@@ -49,7 +50,18 @@ export default function SidebarTabs({ items, selectedId, onSelect, heading, foot
                   ) : (
                     <span className={styles.shelfThumbFallback} aria-hidden />
                   )}
-                  <span className="font-title text-sm">{item.title}</span>
+                  {/* the tab is a fixed shape (torn-tape clip-path) — a long
+                      title used to just get visually cut off by that clip
+                      path once it overflowed the tab's width */}
+                  <FitText
+                    as="span"
+                    boxClassName="min-w-0 flex-1 max-h-10 overflow-hidden"
+                    className="font-title text-sm"
+                    maxFontSizePx={14}
+                    minFontSizePx={9}
+                  >
+                    {item.title}
+                  </FitText>
                 </span>
               </button>
             </li>
@@ -68,7 +80,15 @@ export default function SidebarTabs({ items, selectedId, onSelect, heading, foot
         transition={{ duration: 0.2, ease: "easeOut" }}
       >
         <FlowerDoodle className={styles.sidebarFooterDoodle} />
-        <span className={`font-hand text-base ${styles.sidebarFooterText}`}>{footerNote}</span>
+        <FitText
+          as="span"
+          boxClassName="w-full max-h-16 overflow-hidden"
+          className={`font-hand text-base ${styles.sidebarFooterText}`}
+          maxFontSizePx={16}
+          minFontSizePx={10}
+        >
+          {footerNote}
+        </FitText>
       </motion.div>
     </nav>
   );

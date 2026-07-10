@@ -1,6 +1,7 @@
 import { PortableText } from "@portabletext/react";
 import type { ContentItem } from "@/lib/sanity/queries";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
+import FitText from "@/components/ui/FitText";
 import { GithubIcon } from "@/components/illustrations/svg/contactIcons";
 import { ChipIcon, HeartIcon, PersonIcon, StarIcon, TagIcon, ArrowUpRightIcon } from "@/components/illustrations/svg/contentIcons";
 import { FlowerDoodle } from "@/components/illustrations/svg/doodles";
@@ -19,8 +20,16 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
       <div className={styles.header}>
         <div className={styles.titleRow}>
           <span className={styles.titleDot} aria-hidden />
-          <div>
-            <h3 className={styles.title}>{item.title}</h3>
+          <div className={styles.titleGroup}>
+            <FitText
+              as="h3"
+              boxClassName={styles.titleBox}
+              className={`text-2xl ${styles.title}`}
+              maxFontSizePx={22}
+              minFontSizePx={14}
+            >
+              {item.title}
+            </FitText>
             {item.date && (
               <p className={styles.date}>
                 {new Date(item.date).toLocaleDateString(undefined, { year: "numeric", month: "long" })}
@@ -74,7 +83,15 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
                 <ChipIcon className={styles.sectionIcon} />
                 {techLabel.toLowerCase()}
               </span>
-              <p className={styles.midSectionText}>{item.techOrMaterials.join(", ")}</p>
+              <FitText
+                as="p"
+                boxClassName={styles.midSectionTextBox}
+                className={`text-sm ${styles.midSectionText}`}
+                maxFontSizePx={14}
+                minFontSizePx={10}
+              >
+                {item.techOrMaterials.join(", ")}
+              </FitText>
             </div>
           )}
           {item.myRole && (
@@ -84,7 +101,15 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
                 <PersonIcon className={styles.sectionIcon} />
                 my role
               </span>
-              <p className={styles.midSectionText}>{item.myRole}</p>
+              <FitText
+                as="p"
+                boxClassName={styles.midSectionTextBox}
+                className={`text-sm ${styles.midSectionText}`}
+                maxFontSizePx={14}
+                minFontSizePx={10}
+              >
+                {item.myRole}
+              </FitText>
             </div>
           )}
         </div>
@@ -99,7 +124,15 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
               {item.highlights.map((highlight) => (
                 <li key={highlight} className={styles.highlightItem}>
                   <HeartIcon className={styles.highlightBullet} />
-                  <span>{highlight}</span>
+                  <FitText
+                    as="span"
+                    boxClassName={styles.highlightTextBox}
+                    className="text-sm"
+                    maxFontSizePx={14}
+                    minFontSizePx={10}
+                  >
+                    {highlight}
+                  </FitText>
                 </li>
               ))}
             </ul>
@@ -117,7 +150,15 @@ export default function ContentPane({ item, techLabel }: ContentPaneProps) {
             height={20}
             className={styles.hangingTabIcon}
           />
-          {item.codeLink.label}
+          <FitText
+            as="span"
+            boxClassName={styles.hangingTabTextBox}
+            className={`text-sm ${styles.hangingTabText}`}
+            maxFontSizePx={14}
+            minFontSizePx={9}
+          >
+            {item.codeLink.label}
+          </FitText>
           <ArrowUpRightIcon className={styles.hangingTabArrow} />
         </a>
       )}

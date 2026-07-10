@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Paperclip from "@/components/illustrations/svg/Paperclip";
 import { FlowerDoodle, SmileyDoodle, SparkDoodle } from "@/components/illustrations/svg/doodles";
-import HandwrittenLabel from "@/components/ui/HandwrittenLabel";
+import FitText from "@/components/ui/FitText";
 import type { ClipboardStickerUrls } from "@/lib/sanity/queries";
 import ClipboardSticker from "./ClipboardSticker";
 import styles from "./ClipboardPlaceholder.module.css";
@@ -36,7 +36,15 @@ export default function ClipboardPlaceholder({ text, stickers }: ClipboardPlaceh
         <span className={styles.clipRivet} aria-hidden />
       </div>
       <div ref={constraintsRef} className={styles.paper}>
-        <HandwrittenLabel className={`text-2xl text-maroon ${styles.paperText}`}>{text}</HandwrittenLabel>
+        <FitText
+          as="span"
+          boxClassName={styles.paperTextBox}
+          className="font-hand text-maroon"
+          maxFontSizePx={26}
+          minFontSizePx={12}
+        >
+          {text}
+        </FitText>
         {STICKERS.map((sticker) => (
           <ClipboardSticker
             key={sticker.key}

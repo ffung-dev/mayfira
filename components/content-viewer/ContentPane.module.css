@@ -31,11 +31,22 @@
   background: var(--color-maroon);
 }
 
+.titleGroup {
+  min-width: 0;
+  flex: 1;
+}
+
+/* font-size no longer set here — FitText owns it, since a title with no
+   length limit (Sanity) sits in a header row that also has to fit tags */
 .title {
   font-family: var(--font-title);
   font-weight: 900;
-  font-size: 1.35rem;
   color: var(--color-maroon);
+}
+
+.titleBox {
+  max-height: 2.8rem;
+  overflow: hidden;
 }
 
 .date {
@@ -282,9 +293,13 @@
   transform: rotate(9deg);
 }
 
+.midSectionTextBox {
+  max-height: 6rem;
+  overflow: hidden;
+}
+
 .midSectionText {
   font-family: var(--font-body);
-  font-size: 0.88rem;
   line-height: 1.6;
   color: var(--color-ink);
 }
@@ -314,8 +329,14 @@
   align-items: flex-start;
   gap: 0.5rem;
   font-family: var(--font-body);
-  font-size: 0.85rem;
   color: var(--color-ink);
+}
+
+.highlightTextBox {
+  min-width: 0;
+  flex: 1;
+  max-height: 2.3rem;
+  overflow: hidden;
 }
 
 .highlightBullet {
@@ -340,8 +361,6 @@
   border-bottom: none;
   background: var(--color-cream);
   padding: 0.5rem 0.9rem;
-  font-family: var(--font-title);
-  font-size: 0.78rem;
   color: var(--color-maroon);
   text-decoration: none;
   box-shadow: 0 -4px 10px rgba(55, 36, 23, 0.15);
@@ -350,6 +369,18 @@
 
 .hangingTab:hover {
   transform: translateY(-2px);
+}
+
+/* the label is a small pill of text — always one line, shrinking to
+   fit rather than wrapping or stretching the tab wider than intended */
+.hangingTabTextBox {
+  max-width: 9rem;
+  overflow: hidden;
+}
+
+.hangingTabText {
+  font-family: var(--font-title);
+  white-space: nowrap;
 }
 
 .hangingTabIcon {
