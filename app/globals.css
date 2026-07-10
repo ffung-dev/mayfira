@@ -16,6 +16,8 @@
   --color-cork: #b98e6d;
   --color-frame: #72523a;
   --color-ink: #372417;
+  --color-blush-light: #ffedf1;
+  --color-popsicle-stick: #d99e64;
 
   --font-title: var(--font-elsie);
   --font-body: var(--font-karla);

@@ -53,9 +53,15 @@ export default function Heading({
 
   return (
     <div ref={containerRef} className="w-full">
+      {/* opacity-0 is the baseline, not just the animation's start point —
+          without it the heading sits fully visible from first paint until
+          the "tracking-in-expand" class attaches, then visibly resets to
+          invisible right as the animation kicks in. The animation (fill
+          mode "both") takes over opacity entirely once it's playing, so
+          this class is only ever seen before that. */}
       <Tag
         ref={headingRef}
-        className={`font-title font-black text-xl leading-tight whitespace-nowrap sm:text-2xl lg:text-3xl ${className}`}
+        className={`font-title font-black text-xl leading-tight whitespace-nowrap opacity-0 sm:text-2xl lg:text-3xl ${className}`}
       >
         {children}
       </Tag>

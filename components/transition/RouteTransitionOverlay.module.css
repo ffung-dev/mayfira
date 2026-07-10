@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to bottom, var(--color-blush), var(--color-rose));
+  background: radial-gradient(ellipse at center, var(--color-cream) 45%, var(--color-blush-light) 100%);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
@@ -16,35 +16,86 @@
   pointer-events: auto;
 }
 
-/* Three bars filling up in a staggered wave. */
+/* Popsicle loader — mask-revealed blobs "melt in" onto a striped body
+   sitting on a stick. Stripe colors swapped to the site palette; stick
+   color kept as specified. */
 .loader {
-  --c: no-repeat linear-gradient(var(--color-maroon) 0 0);
-  width: 45px;
-  aspect-ratio: 1;
-  background:
-    var(--c) 0% 100%,
-    var(--c) 50% 100%,
-    var(--c) 100% 100%;
-  animation: loaderWave 1s infinite linear;
+  position: relative;
+  width: 35px;
+  height: 80px;
 }
 
-@keyframes loaderWave {
+.loader::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 20px;
+  border-radius: 15px 15px 10px 10px;
+  padding: 1px;
+  background: repeating-linear-gradient(-45deg, var(--color-rose) 0 8px, var(--color-maroon) 0 12px) content-box;
+  --c: radial-gradient(farthest-side, #000 94%, #0000);
+  -webkit-mask:
+    linear-gradient(#0000 0 0),
+    var(--c) -10px -10px,
+    var(--c) 15px -14px,
+    var(--c) 9px -6px,
+    var(--c) -12px 9px,
+    var(--c) 14px 9px,
+    var(--c) 23px 27px,
+    var(--c) -8px 35px,
+    var(--c) 50% 50%,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0),
+    var(--c) -10px -10px,
+    var(--c) 15px -14px,
+    var(--c) 9px -6px,
+    var(--c) -12px 9px,
+    var(--c) 14px 9px,
+    var(--c) 23px 27px,
+    var(--c) -8px 35px,
+    var(--c) 50% 50%,
+    linear-gradient(#0000 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude, add, add, add, add, add, add, add, add;
+  -webkit-mask-repeat: no-repeat;
+  animation: loaderFill 3s infinite;
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  inset: 50% calc(50% - 4px) 0;
+  border-radius: 50px;
+  background: var(--color-popsicle-stick);
+}
+
+@keyframes loaderFill {
   0% {
-    background-size: 20% 100%, 20% 100%, 20% 100%;
+    -webkit-mask-size: auto, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  10% {
+    -webkit-mask-size: auto, 25px 25px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
   }
   20% {
-    background-size: 20% 60%, 20% 100%, 20% 100%;
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  30% {
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 0 0, 0 0, 0 0, 0 0, 0 0;
   }
   40% {
-    background-size: 20% 80%, 20% 60%, 20% 100%;
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 0 0, 0 0, 0 0, 0 0;
+  }
+  50% {
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 0 0, 0 0, 0 0;
   }
   60% {
-    background-size: 20% 100%, 20% 80%, 20% 60%;
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 25px 25px, 0 0, 0 0;
   }
-  80% {
-    background-size: 20% 100%, 20% 100%, 20% 80%;
+  70% {
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 25px 25px, 25px 25px, 0 0;
   }
+  80%,
   100% {
-    background-size: 20% 100%, 20% 100%, 20% 100%;
+    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 25px 25px, 25px 25px, 200% 200%;
   }
 }
