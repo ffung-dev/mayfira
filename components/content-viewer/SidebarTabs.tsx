@@ -1,4 +1,7 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "motion/react";
 import type { ContentItem } from "@/lib/sanity/queries";
 import { StarIcon } from "@/components/illustrations/svg/contentIcons";
 import { SparkDoodle, FlowerDoodle } from "@/components/illustrations/svg/doodles";
@@ -11,6 +14,8 @@ type SidebarTabsProps = {
   heading: string;
   footerNote: string;
 };
+
+const FOOTER_REST_ROTATE = -0.8;
 
 export default function SidebarTabs({ items, selectedId, onSelect, heading, footerNote }: SidebarTabsProps) {
   return (
@@ -51,10 +56,20 @@ export default function SidebarTabs({ items, selectedId, onSelect, heading, foot
           );
         })}
       </ul>
-      <div className={styles.sidebarFooter}>
+      {/* Sits still at rest — only shakes while actively hovered, and
+          settles straight back to its resting tilt the moment hover ends. */}
+      <motion.div
+        className={styles.sidebarFooter}
+        initial={{ rotate: FOOTER_REST_ROTATE }}
+        whileHover={{
+          rotate: [FOOTER_REST_ROTATE, -6, 5, -5, 4, FOOTER_REST_ROTATE],
+          transition: { duration: 0.5, repeat: Infinity, ease: "easeInOut" },
+        }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+      >
         <FlowerDoodle className={styles.sidebarFooterDoodle} />
         <span className={`font-hand text-base ${styles.sidebarFooterText}`}>{footerNote}</span>
-      </div>
+      </motion.div>
     </nav>
   );
 }

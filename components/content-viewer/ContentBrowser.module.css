@@ -119,6 +119,8 @@
 
 /* the differently-styled last tape at the bottom of the list — static,
    not a tab, just a little sign-off note */
+/* rotate lives on the Motion element (initial/whileHover) now, not here —
+   it needs to own that property to animate the hover shake */
 .sidebarFooter {
   position: relative;
   margin-top: auto;
@@ -127,7 +129,6 @@
   padding: 0.75rem 1rem;
   text-align: center;
   box-shadow: 0 4px 8px rgba(55, 36, 23, 0.15);
-  transform: rotate(-0.8deg);
   clip-path: polygon(2% 10%, 10% 0%, 90% 5%, 98% 12%, 100% 88%, 90% 100%, 8% 95%, 0% 86%);
 }
 
