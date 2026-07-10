@@ -13,10 +13,18 @@ type ContentBrowserProps = {
   techLabel: string;
   sidebarHeading: string;
   footerNote: string;
+  clipboardText: string;
   clipboardStickers: ClipboardStickerUrls;
 };
 
-export default function ContentBrowser({ items, techLabel, sidebarHeading, footerNote, clipboardStickers }: ContentBrowserProps) {
+export default function ContentBrowser({
+  items,
+  techLabel,
+  sidebarHeading,
+  footerNote,
+  clipboardText,
+  clipboardStickers,
+}: ContentBrowserProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = items.find((item) => item._id === selectedId) ?? null;
 
@@ -49,7 +57,7 @@ export default function ContentBrowser({ items, techLabel, sidebarHeading, foote
               exit={{ y: 280, opacity: 0, transition: { duration: 0.45, ease: "easeIn" } }}
             >
               <div className={styles.placeholder}>
-                <ClipboardPlaceholder stickers={clipboardStickers} />
+                <ClipboardPlaceholder text={clipboardText} stickers={clipboardStickers} />
               </div>
             </motion.div>
           )}

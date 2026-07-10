@@ -322,12 +322,16 @@ export type ClipboardStickerUrls = {
   clipboardStickerFourUrl?: string;
 };
 
-export type ContentPageSettings = ClipboardStickerUrls & {
-  sidebarNote: string;
-};
+export type ClipboardText = { clipboardText: string };
+
+export type ContentPageSettings = ClipboardStickerUrls &
+  ClipboardText & {
+    sidebarNote: string;
+  };
 
 type RawContentPageSettings = {
   sidebarNote?: string;
+  clipboardText?: string;
   clipboardStickerOne?: SanityImageSource;
   clipboardStickerTwo?: SanityImageSource;
   clipboardStickerThree?: SanityImageSource;
@@ -335,16 +339,18 @@ type RawContentPageSettings = {
 } | null;
 
 const PAGE_SETTINGS_PROJECTION = `{
-  sidebarNote,
+  sidebarNote, clipboardText,
   clipboardStickerOne, clipboardStickerTwo, clipboardStickerThree, clipboardStickerFour
 }`;
 
 const DEFAULT_PROJECTS_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls> = {
   sidebarNote: "always learning, always building ♥",
+  clipboardText: "pick a project to explore!",
 };
 
 const DEFAULT_HOBBIES_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls> = {
   sidebarNote: "always curious, always making ♥",
+  clipboardText: "pick a hobby, any hobby …",
 };
 
 function normalizePageSettings(
@@ -355,6 +361,7 @@ function normalizePageSettings(
     source ? urlFor(source).width(160).height(160).fit("max").url() : undefined;
   return {
     sidebarNote: doc?.sidebarNote ?? defaults.sidebarNote,
+    clipboardText: doc?.clipboardText ?? defaults.clipboardText,
     clipboardStickerOneUrl: image(doc?.clipboardStickerOne),
     clipboardStickerTwoUrl: image(doc?.clipboardStickerTwo),
     clipboardStickerThreeUrl: image(doc?.clipboardStickerThree),

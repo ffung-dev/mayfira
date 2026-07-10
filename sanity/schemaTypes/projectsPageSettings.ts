@@ -21,6 +21,14 @@ export default defineType({
       group: "sidebar",
     }),
     defineField({
+      name: "clipboardText",
+      type: "string",
+      title: "Clipboard text",
+      description: "The handwritten line on the empty-state clipboard.",
+      initialValue: "pick a project to explore!",
+      group: "clipboard",
+    }),
+    defineField({
       name: "clipboardStickerOne",
       type: "image",
       title: "Clipboard sticker 1 (optional)",

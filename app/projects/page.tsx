@@ -16,6 +16,7 @@ export default async function ProjectsPage() {
         techLabel="Technologies used"
         sidebarHeading="pick a project"
         footerNote={settings.sidebarNote}
+        clipboardText={settings.clipboardText}
         clipboardStickers={settings}
       />
     </main>

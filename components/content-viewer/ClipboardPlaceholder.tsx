@@ -15,11 +15,18 @@ const STICKERS = [
   { key: "four", Icon: SmileyDoodle, imageKey: "clipboardStickerFourUrl" as const, x: "64%", y: "68%", rotate: 7 },
 ];
 
+type ClipboardPlaceholderProps = {
+  text: string;
+  stickers: ClipboardStickerUrls;
+};
+
 /** Empty-state placeholder for Projects/Hobbies — a literal clipboard.
+ * Text and stickers both come from that page's own Sanity settings
+ * document, so Projects and Hobbies can (and do) show different ones.
  * The scattered stickers use the exact same drag-constrained-to-parent
  * mechanic as the homepage cart items, just without a destination —
  * clicking does nothing, they're purely there to fidget with. */
-export default function ClipboardPlaceholder({ stickers }: { stickers: ClipboardStickerUrls }) {
+export default function ClipboardPlaceholder({ text, stickers }: ClipboardPlaceholderProps) {
   const constraintsRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -29,9 +36,7 @@ export default function ClipboardPlaceholder({ stickers }: { stickers: Clipboard
         <span className={styles.clipRivet} aria-hidden />
       </div>
       <div ref={constraintsRef} className={styles.paper}>
-        <HandwrittenLabel className={`text-2xl text-maroon ${styles.paperText}`}>
-          pick something to explore!
-        </HandwrittenLabel>
+        <HandwrittenLabel className={`text-2xl text-maroon ${styles.paperText}`}>{text}</HandwrittenLabel>
         {STICKERS.map((sticker) => (
           <ClipboardSticker
             key={sticker.key}
