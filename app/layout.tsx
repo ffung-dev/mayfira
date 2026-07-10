@@ -24,7 +24,7 @@ const homemadeApple = Homemade_Apple({
 
 export const metadata: Metadata = {
   title: "mayfira",
-  description: "fiona's personal supermarket-themed corner of the internet",
+  description: "fiona's personal corner of the internet",
 };
 
 export default function RootLayout({
