@@ -3,11 +3,13 @@
   width: 100%;
   max-width: 64rem;
   border-radius: 1.5rem;
-  border: 14px solid var(--color-ink);
-  background-color: color-mix(in srgb, var(--color-rose) 32%, var(--color-cream));
+  /* frame first, cork second — same brown family as the clipboard, with
+     the frame a couple shades darker so the two still read as distinct */
+  border: 14px solid var(--color-frame);
+  background-color: var(--color-cork);
   background-image:
-    radial-gradient(color-mix(in srgb, var(--color-maroon) 18%, transparent) 1.5px, transparent 1.5px),
-    radial-gradient(color-mix(in srgb, var(--color-maroon) 12%, transparent) 1.5px, transparent 1.5px);
+    radial-gradient(color-mix(in srgb, var(--color-frame) 35%, transparent) 1.5px, transparent 1.5px),
+    radial-gradient(color-mix(in srgb, var(--color-cream) 20%, transparent) 1.5px, transparent 1.5px);
   background-size: 22px 22px, 34px 34px;
   background-position: 0 0, 11px 17px;
   box-shadow: 0 18px 40px rgba(55, 36, 23, 0.3);
@@ -145,6 +147,59 @@
       color-mix(in srgb, var(--color-slate) 45%, transparent) 20px
     ),
     linear-gradient(to right, transparent 14px, color-mix(in srgb, var(--color-rose) 55%, transparent) 15px, transparent 16px);
+}
+
+/* a plain pinned image, no card chrome at all */
+.decorationImage {
+  width: 8rem;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+.decorationImageInner {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  filter: drop-shadow(0 6px 10px rgba(55, 36, 23, 0.3));
+}
+
+/* a simpler static-caption cousin of the dedicated Polaroid component,
+   for free-form bulletin items that want the polaroid look */
+.bulletinPolaroid {
+  width: 9rem;
+  padding: 0.5rem 0.5rem 0.8rem;
+  background: var(--color-cream);
+}
+
+.bulletinPolaroidPhoto {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 0.1rem;
+  background: var(--color-blush);
+}
+
+/* horizontal luggage-tag silhouette, matching PageTag's shape */
+.tagStyle {
+  width: auto;
+  min-width: 8rem;
+  padding: 0.55rem 1rem 0.55rem 1.6rem;
+  clip-path: polygon(10% 0%, 100% 0%, 100% 100%, 10% 100%, 0% 50%);
+}
+
+.tagStyleHole {
+  position: absolute;
+  top: 50%;
+  left: 0.65rem;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  border: 1px solid var(--color-ink);
+  background: var(--color-cream);
+  transform: translateY(-50%);
 }
 
 /* ---- polaroid ---- */

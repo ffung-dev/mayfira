@@ -214,6 +214,42 @@ export async function getPolaroidPhotos(): Promise<PolaroidPhoto[]> {
   }));
 }
 
+type RawBulletinItem = {
+  _id: string;
+  displayStyle: string;
+  title?: string;
+  text?: string;
+  image?: SanityImageSource;
+  url?: string;
+  rotationOverride?: number;
+};
+
+export type BulletinItem = {
+  _id: string;
+  displayStyle: string;
+  title?: string;
+  text?: string;
+  imageUrl?: string;
+  url?: string;
+  rotationOverride?: number;
+};
+
+export async function getBulletinItems(): Promise<BulletinItem[]> {
+  const docs = await safeFetch<RawBulletinItem[]>(
+    `*[_type == "bulletinItem"] | order(orderRank) { _id, displayStyle, title, text, image, url, rotationOverride }`,
+    [],
+  );
+  return docs.map((doc) => ({
+    _id: doc._id,
+    displayStyle: doc.displayStyle,
+    title: doc.title,
+    text: doc.text,
+    imageUrl: doc.image ? urlFor(doc.image).width(500).height(500).fit("max").url() : undefined,
+    url: doc.url,
+    rotationOverride: doc.rotationOverride,
+  }));
+}
+
 type RawHomePage = {
   teddyBearImage?: SanityImageSource;
   laptopImage?: SanityImageSource;

@@ -12,6 +12,7 @@ export const structure: StructureResolver = (S, context) =>
       orderableDocumentListDeskItem({ type: "hobby", title: "Hobbies", S, context }),
       orderableDocumentListDeskItem({ type: "contactNote", title: "Contact Notes", S, context }),
       S.documentTypeListItem("polaroidPhoto").title("Polaroid Photos"),
+      orderableDocumentListDeskItem({ type: "bulletinItem", title: "Bulletin Board Items", S, context }),
       S.divider(),
       S.listItem()
         .title("About Page")

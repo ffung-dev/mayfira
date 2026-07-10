@@ -4,6 +4,7 @@ import project from "./project";
 import hobby from "./hobby";
 import contactNote from "./contactNote";
 import polaroidPhoto from "./polaroidPhoto";
+import bulletinItem from "./bulletinItem";
 import aboutPage from "./aboutPage";
 import homePage from "./homePage";
 import projectsPageSettings from "./projectsPageSettings";
@@ -16,6 +17,7 @@ export const schemaTypes = [
   hobby,
   contactNote,
   polaroidPhoto,
+  bulletinItem,
   aboutPage,
   homePage,
   projectsPageSettings,
