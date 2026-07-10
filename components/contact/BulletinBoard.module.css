@@ -182,7 +182,7 @@
   background: var(--color-blush);
 }
 
-/* horizontal luggage-tag silhouette, matching PageTag's shape */
+/* horizontal luggage-tag silhouette */
 .tagStyle {
   width: auto;
   min-width: 8rem;

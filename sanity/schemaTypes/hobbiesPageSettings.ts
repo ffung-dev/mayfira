@@ -1,35 +1,17 @@
 import { defineField, defineType } from "sanity";
 
 /** Singleton. Small bits of page chrome that aren't tied to any one
- * hobby entry — the note card next to the heading, the sidebar's
- * bottom footer note, and the clipboard placeholder's stickers. */
+ * hobby entry — the sidebar's bottom footer note, and the clipboard
+ * placeholder's stickers. */
 export default defineType({
   name: "hobbiesPageSettings",
   title: "Hobbies Page Settings",
   type: "document",
   groups: [
-    { name: "noteCard", title: "Note card" },
     { name: "sidebar", title: "Sidebar" },
     { name: "clipboard", title: "Clipboard placeholder" },
   ],
   fields: [
-    defineField({
-      name: "tagText",
-      type: "text",
-      title: "Note card text",
-      description: "The note card pinned next to the page heading.",
-      rows: 2,
-      initialValue: "collect hobbies, not things.",
-      group: "noteCard",
-    }),
-    defineField({
-      name: "stickerImage",
-      type: "image",
-      title: "Note card sticker (optional)",
-      description: "Decoration in the corner of the note card. Defaults to a coded flower doodle.",
-      options: { hotspot: true },
-      group: "noteCard",
-    }),
     defineField({
       name: "sidebarNote",
       type: "string",

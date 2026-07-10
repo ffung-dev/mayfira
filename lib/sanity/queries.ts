@@ -323,15 +323,11 @@ export type ClipboardStickerUrls = {
 };
 
 export type ContentPageSettings = ClipboardStickerUrls & {
-  tagText: string;
   sidebarNote: string;
-  stickerUrl?: string;
 };
 
 type RawContentPageSettings = {
-  tagText?: string;
   sidebarNote?: string;
-  stickerImage?: SanityImageSource;
   clipboardStickerOne?: SanityImageSource;
   clipboardStickerTwo?: SanityImageSource;
   clipboardStickerThree?: SanityImageSource;
@@ -339,30 +335,26 @@ type RawContentPageSettings = {
 } | null;
 
 const PAGE_SETTINGS_PROJECTION = `{
-  tagText, sidebarNote, stickerImage,
+  sidebarNote,
   clipboardStickerOne, clipboardStickerTwo, clipboardStickerThree, clipboardStickerFour
 }`;
 
-const DEFAULT_PROJECTS_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls | "stickerUrl"> = {
-  tagText: "collect moments, not things.",
+const DEFAULT_PROJECTS_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls> = {
   sidebarNote: "always learning, always building ♥",
 };
 
-const DEFAULT_HOBBIES_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls | "stickerUrl"> = {
-  tagText: "collect hobbies, not things.",
+const DEFAULT_HOBBIES_SETTINGS: Omit<ContentPageSettings, keyof ClipboardStickerUrls> = {
   sidebarNote: "always curious, always making ♥",
 };
 
 function normalizePageSettings(
   doc: RawContentPageSettings,
-  defaults: Omit<ContentPageSettings, keyof ClipboardStickerUrls | "stickerUrl">,
+  defaults: Omit<ContentPageSettings, keyof ClipboardStickerUrls>,
 ): ContentPageSettings {
   const image = (source?: SanityImageSource) =>
     source ? urlFor(source).width(160).height(160).fit("max").url() : undefined;
   return {
-    tagText: doc?.tagText ?? defaults.tagText,
     sidebarNote: doc?.sidebarNote ?? defaults.sidebarNote,
-    stickerUrl: image(doc?.stickerImage),
     clipboardStickerOneUrl: image(doc?.clipboardStickerOne),
     clipboardStickerTwoUrl: image(doc?.clipboardStickerTwo),
     clipboardStickerThreeUrl: image(doc?.clipboardStickerThree),
