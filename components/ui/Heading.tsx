@@ -1,6 +1,7 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
+import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 
 type HeadingProps = {
   children: React.ReactNode;
@@ -23,6 +24,7 @@ export default function Heading({
 }: HeadingProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
+  const { overlayGone } = useRouteTransition();
 
   useLayoutEffect(() => {
     const container = containerRef.current;
@@ -35,16 +37,19 @@ export default function Heading({
       heading.style.fontSize = `${Math.max(minFontSizePx, Math.floor(maxFontSizePx * scale))}px`;
     };
 
-    // Measure at normal letter-spacing first, THEN attach the entrance
-    // animation — tracking-in-expand compresses letter-spacing while it
-    // plays, which would throw off the width measurement if both ran at once.
     fit();
-    heading.classList.add("tracking-in-expand");
-
     const observer = new ResizeObserver(fit);
     observer.observe(container);
     return () => observer.disconnect();
   }, [maxFontSizePx, minFontSizePx, children]);
+
+  // Separate from sizing on purpose: the entrance animation should only
+  // play once the loading overlay is fully gone, not the instant this
+  // mounts (which, on a route transition, is still hidden behind it).
+  useEffect(() => {
+    if (!overlayGone) return;
+    headingRef.current?.classList.add("tracking-in-expand");
+  }, [overlayGone]);
 
   return (
     <div ref={containerRef} className="w-full">
