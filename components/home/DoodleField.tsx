@@ -10,6 +10,7 @@ import {
   SparkDoodle,
 } from "@/components/illustrations/svg/doodles";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
+import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 
 // top/left are each doodle's resting center; drift is how far (px) it
 // wanders before easing back — kept small relative to each doodle's
@@ -28,6 +29,8 @@ const DOODLES = [
  * relative to each one's distance from the edge). Each slot can be
  * replaced with a real image from Sanity; falls back to coded line-art. */
 export default function DoodleField({ doodleUrls }: { doodleUrls: string[] }) {
+  const { overlayGone } = useRouteTransition();
+
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
       {DOODLES.map(({ Doodle, top, left, size, rotate, drift, duration }, index) => (
@@ -35,11 +38,17 @@ export default function DoodleField({ doodleUrls }: { doodleUrls: string[] }) {
           key={index}
           className="absolute text-cream opacity-35"
           style={{ top, left, width: size, height: size }}
-          animate={{
-            x: [0, drift.x, 0, -drift.x, 0],
-            y: [0, -drift.y, 0, drift.y, 0],
-            rotate: [rotate, rotate + 6, rotate, rotate - 6, rotate],
-          }}
+          // Stays put until the loading overlay is fully gone — otherwise
+          // the drift loop is already mid-cycle the instant it's revealed.
+          animate={
+            overlayGone
+              ? {
+                  x: [0, drift.x, 0, -drift.x, 0],
+                  y: [0, -drift.y, 0, drift.y, 0],
+                  rotate: [rotate, rotate + 6, rotate, rotate - 6, rotate],
+                }
+              : { x: 0, y: 0, rotate }
+          }
           transition={{ duration, repeat: Infinity, ease: "easeInOut" }}
         >
           <IllustrationSlot
