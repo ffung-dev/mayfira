@@ -3,12 +3,14 @@
   width: 100%;
   max-width: 64rem;
   border-radius: 1.5rem;
-  /* frame first, cork second — same brown family as the clipboard, with
-     the frame a couple shades darker so the two still read as distinct */
-  border: 14px solid var(--color-frame);
+  /* ink border matches every other card/container outline sitewide
+     (sidebar, content area, pinned notes, polaroid, gallery frames) —
+     cork stays for the corkboard fill/texture, but the frame itself now
+     uses the same dark outline color as everything else */
+  border: 14px solid var(--color-ink);
   background-color: var(--color-cork);
   background-image:
-    radial-gradient(color-mix(in srgb, var(--color-frame) 35%, transparent) 1.5px, transparent 1.5px),
+    radial-gradient(color-mix(in srgb, var(--color-ink) 30%, transparent) 1.5px, transparent 1.5px),
     radial-gradient(color-mix(in srgb, var(--color-cream) 20%, transparent) 1.5px, transparent 1.5px);
   background-size: 22px 22px, 34px 34px;
   background-position: 0 0, 11px 17px;
