@@ -224,4 +224,14 @@
   .contentSlide {
     position: static;
   }
+
+  /* On desktop this box's height:100% resolves against the grid row
+     (a definite length), which is what lets the clipboard's own
+     max-height:100% cap work. On mobile contentArea/contentSlide above
+     go static/auto-height, so height:100% here would resolve to nothing
+     — give it a real length so the clipboard still has something
+     definite to fit itself inside. */
+  .placeholder {
+    height: 60dvh;
+  }
 }

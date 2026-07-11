@@ -22,6 +22,14 @@ export default defineType({
   title: "Contact Note",
   type: "document",
   fields: [
+    // Required by the drag-to-reorder plugin (orderableDocumentListDeskItem
+    // in structure.ts) — it needs a real schema field to store the order
+    // in, it doesn't add one on its own.
+    defineField({
+      name: "orderRank",
+      type: "string",
+      hidden: true,
+    }),
     defineField({
       name: "platform",
       type: "string",

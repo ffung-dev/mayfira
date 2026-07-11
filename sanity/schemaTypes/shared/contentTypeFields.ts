@@ -5,6 +5,15 @@ import { defineField } from "sanity";
  * on separate pages and edited independently in the Studio. */
 export function contentTypeFields(techFieldTitle: string) {
   return [
+    // Required by the drag-to-reorder plugin (orderableDocumentListDeskItem
+    // in structure.ts) — it needs a real schema field to store the order
+    // in, it doesn't add one on its own. Hidden since it's managed by
+    // dragging in the Studio list, not typed in directly.
+    defineField({
+      name: "orderRank",
+      type: "string",
+      hidden: true,
+    }),
     defineField({
       name: "title",
       type: "string",

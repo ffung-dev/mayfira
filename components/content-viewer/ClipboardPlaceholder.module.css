@@ -1,6 +1,11 @@
 .board {
   position: relative;
   width: min(24rem, 92%);
+  /* max-height, together with the explicit width above, lets the browser
+     shrink whichever dimension is tighter — so on short viewports the
+     board scales down to fit .placeholder's box instead of overflowing
+     it and forcing a scroll. */
+  max-height: 100%;
   aspect-ratio: 3 / 4;
   border-radius: 0.7rem;
   background: linear-gradient(160deg, #c8996f 0%, #ac7a4f 55%, #93683f 100%);
