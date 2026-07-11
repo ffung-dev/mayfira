@@ -13,6 +13,7 @@ type ContentBrowserProps = {
   techLabel: string;
   sidebarHeading: string;
   footerNote: string;
+  footerImageUrl?: string;
   clipboardText: string;
   clipboardStickers: ClipboardStickerUrls;
 };
@@ -22,6 +23,7 @@ export default function ContentBrowser({
   techLabel,
   sidebarHeading,
   footerNote,
+  footerImageUrl,
   clipboardText,
   clipboardStickers,
 }: ContentBrowserProps) {
@@ -30,7 +32,14 @@ export default function ContentBrowser({
 
   return (
     <div className={styles.browser}>
-      <SidebarTabs items={items} selectedId={selectedId} onSelect={setSelectedId} heading={sidebarHeading} footerNote={footerNote} />
+      <SidebarTabs
+        items={items}
+        selectedId={selectedId}
+        onSelect={setSelectedId}
+        heading={sidebarHeading}
+        footerNote={footerNote}
+        footerImageUrl={footerImageUrl}
+      />
       {/* mode="wait": the clipboard's drop-away exit finishes before the
           content starts rising, rather than the two overlapping.
           No cream box at all until something's selected — contentArea

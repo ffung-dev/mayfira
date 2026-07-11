@@ -22,7 +22,12 @@ export default function IllustrationSlot({
   className,
 }: IllustrationSlotProps) {
   if (imageUrl) {
-    return <Image src={imageUrl} alt={alt} width={width} height={height} className={className} />;
+    // Browsers natively drag <img> elements by default — without this it
+    // fights with Motion's own drag gesture and shows the OS's "can't
+    // drop here" cursor instead of actually moving the element.
+    return (
+      <Image src={imageUrl} alt={alt} width={width} height={height} className={className} draggable={false} />
+    );
   }
   return <Fallback className={className} />;
 }

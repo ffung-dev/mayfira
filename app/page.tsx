@@ -16,10 +16,8 @@ export default async function Home() {
         <Heading className="text-cream" maxFontSizePx={48}>
           hi, i&rsquo;m fiona!
         </Heading>
-        <p className="max-w-sm text-lg text-blush">
-          take a look around — everything in the cart leads somewhere.
-        </p>
-        <SpecialsCard specials={homeData.specials} />
+        <p className="max-w-sm text-lg text-blush">{homeData.subtitle}</p>
+        <SpecialsCard specials={homeData.specials} paperclipUrl={homeData.specialsPaperclipUrl} />
       </section>
       <section className="flex items-center justify-center bg-cream px-8 py-16 sm:w-3/5 sm:px-16">
         <ShoppingCart images={homeData} />

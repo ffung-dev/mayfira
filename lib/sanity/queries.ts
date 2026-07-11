@@ -265,6 +265,8 @@ type RawHomePage = {
   cerealBoxImage?: SanityImageSource;
   doodleImages?: SanityImageSource[];
   specials?: string[];
+  specialsPaperclipImage?: SanityImageSource;
+  subtitle?: string;
 };
 
 export type HomePageData = {
@@ -282,7 +284,11 @@ export type HomePageData = {
   cerealBoxUrl?: string;
   doodleUrls: string[];
   specials: string[];
+  specialsPaperclipUrl?: string;
+  subtitle: string;
 };
+
+const DEFAULT_SUBTITLE = "take a look around — everything in the cart leads somewhere.";
 
 export async function getHomePageData(): Promise<HomePageData> {
   const doc = await safeFetch<RawHomePage | null>(
@@ -290,11 +296,11 @@ export async function getHomePageData(): Promise<HomePageData> {
       teddyBearImage, laptopImage, yarnBallImage, telephoneImage,
       orangesBagImage, scallionsImage, chipBagImage,
       milkCartonImage, breadLoafImage, eggCartonImage, cannedGoodImage, cerealBoxImage,
-      doodleImages, specials
+      doodleImages, specials, specialsPaperclipImage, subtitle
     }`,
     null,
   );
-  if (!doc) return { doodleUrls: [], specials: [] };
+  if (!doc) return { doodleUrls: [], specials: [], subtitle: DEFAULT_SUBTITLE };
   const image200 = (source?: SanityImageSource) =>
     source ? urlFor(source).width(200).height(200).fit("max").url() : undefined;
   return {
@@ -312,6 +318,8 @@ export async function getHomePageData(): Promise<HomePageData> {
     cerealBoxUrl: image200(doc.cerealBoxImage),
     doodleUrls: (doc.doodleImages ?? []).map((image) => urlFor(image).width(120).height(120).fit("max").url()),
     specials: doc.specials ?? [],
+    specialsPaperclipUrl: image200(doc.specialsPaperclipImage),
+    subtitle: doc.subtitle ?? DEFAULT_SUBTITLE,
   };
 }
 
@@ -327,10 +335,12 @@ export type ClipboardText = { clipboardText: string };
 export type ContentPageSettings = ClipboardStickerUrls &
   ClipboardText & {
     sidebarNote: string;
+    sidebarFooterImageUrl?: string;
   };
 
 type RawContentPageSettings = {
   sidebarNote?: string;
+  sidebarFooterImage?: SanityImageSource;
   clipboardText?: string;
   clipboardStickerOne?: SanityImageSource;
   clipboardStickerTwo?: SanityImageSource;
@@ -339,7 +349,7 @@ type RawContentPageSettings = {
 } | null;
 
 const PAGE_SETTINGS_PROJECTION = `{
-  sidebarNote, clipboardText,
+  sidebarNote, sidebarFooterImage, clipboardText,
   clipboardStickerOne, clipboardStickerTwo, clipboardStickerThree, clipboardStickerFour
 }`;
 
@@ -361,6 +371,7 @@ function normalizePageSettings(
     source ? urlFor(source).width(160).height(160).fit("max").url() : undefined;
   return {
     sidebarNote: doc?.sidebarNote ?? defaults.sidebarNote,
+    sidebarFooterImageUrl: image(doc?.sidebarFooterImage),
     clipboardText: doc?.clipboardText ?? defaults.clipboardText,
     clipboardStickerOneUrl: image(doc?.clipboardStickerOne),
     clipboardStickerTwoUrl: image(doc?.clipboardStickerTwo),

@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import type { ContentItem } from "@/lib/sanity/queries";
 import { StarIcon } from "@/components/illustrations/svg/contentIcons";
 import { SparkDoodle, FlowerDoodle } from "@/components/illustrations/svg/doodles";
+import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
 import FitText from "@/components/ui/FitText";
 import styles from "./ContentBrowser.module.css";
 
@@ -14,11 +15,12 @@ type SidebarTabsProps = {
   onSelect: (id: string) => void;
   heading: string;
   footerNote: string;
+  footerImageUrl?: string;
 };
 
 const FOOTER_REST_ROTATE = -0.8;
 
-export default function SidebarTabs({ items, selectedId, onSelect, heading, footerNote }: SidebarTabsProps) {
+export default function SidebarTabs({ items, selectedId, onSelect, heading, footerNote, footerImageUrl }: SidebarTabsProps) {
   return (
     <nav className={styles.sidebar} aria-label="entries">
       <div className={styles.sidebarHeading}>
@@ -79,7 +81,7 @@ export default function SidebarTabs({ items, selectedId, onSelect, heading, foot
         }}
         transition={{ duration: 0.2, ease: "easeOut" }}
       >
-        <FlowerDoodle className={styles.sidebarFooterDoodle} />
+        <IllustrationSlot imageUrl={footerImageUrl} Fallback={FlowerDoodle} alt="" width={21} height={21} className={styles.sidebarFooterDoodle} />
         <FitText
           as="span"
           boxClassName="w-full max-h-16 overflow-hidden"

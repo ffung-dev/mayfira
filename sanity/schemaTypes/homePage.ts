@@ -123,5 +123,21 @@ export default defineType({
       of: [{ type: "string" }],
       group: "specials",
     }),
+    defineField({
+      name: "specialsPaperclipImage",
+      title: "Paperclip — custom image",
+      description: "Replaces the coded paperclip clipped to the note card. Leave blank to keep it.",
+      type: "image",
+      options: { hotspot: true },
+      group: "specials",
+    }),
+    defineField({
+      name: "subtitle",
+      title: "Subtitle",
+      description: "The line under the \"hi, i'm fiona!\" heading, above the note card.",
+      type: "string",
+      initialValue: "take a look around — everything in the cart leads somewhere.",
+      group: "specials",
+    }),
   ],
 });
