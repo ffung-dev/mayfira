@@ -50,10 +50,19 @@ export default function ShoppingCart({ images }: { images: HomePageData }) {
       {/* Bounds items are draggable within — matches CartSvg's basket
           interior (excludes the handle bar and the outer wire rim). */}
       <div ref={constraintsRef} className="absolute" style={{ inset: "20% 8% 10% 8%" }}>
-        {/* Decorative clutter renders first (behind, no z-index needed —
-            stacking follows DOM order here) and never intercepts clicks. */}
+        {/* Decorative clutter is draggable too, same as the real items, but
+            pinned to z-0 (real items are z-10) so it can never end up
+            visually on top of something that actually leads somewhere. */}
         {CLUTTER.map((item) => (
-          <CartClutterItem key={item.key} Icon={item.Icon} imageUrl={images[item.imageKey]} x={item.x} y={item.y} rotate={item.rotate} />
+          <CartClutterItem
+            key={item.key}
+            Icon={item.Icon}
+            imageUrl={images[item.imageKey]}
+            x={item.x}
+            y={item.y}
+            rotate={item.rotate}
+            constraintsRef={constraintsRef}
+          />
         ))}
         {items.map(({ key, ...item }) => (
           <CartItem key={key} {...item} constraintsRef={constraintsRef} />

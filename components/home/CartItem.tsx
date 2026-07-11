@@ -57,10 +57,10 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
       <Link
         href={href}
         onClick={() => startTransition()}
-        className="absolute flex flex-col items-center gap-0.5"
+        className="absolute z-10 flex flex-col items-center gap-0.5"
         style={{ left: x, top: y }}
       >
-        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={80} height={80} className="h-20 w-20 drop-shadow-md" />
+        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={112} height={112} className="h-28 w-28 drop-shadow-md" />
         <span className="font-hand text-xs text-maroon">{label}</span>
       </Link>
     );
@@ -90,7 +90,7 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
           router.push(href);
         }
       }}
-      className="group absolute cursor-grab active:cursor-grabbing"
+      className="group absolute z-10 cursor-grab active:cursor-grabbing"
       style={{ left: x, top: y }}
     >
       <div className="relative flex flex-col items-center">
@@ -101,7 +101,7 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
           // instead of inheriting the loop's own transition.
           transition={{ duration: 0.4, ease: "easeOut" }}
         >
-          <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={80} height={80} className="h-20 w-20 drop-shadow-md" />
+          <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={112} height={112} className="h-28 w-28 drop-shadow-md" />
         </motion.div>
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
           {label}
