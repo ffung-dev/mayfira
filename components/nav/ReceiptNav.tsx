@@ -17,8 +17,10 @@ export default function ReceiptNav() {
   const pathname = usePathname();
   const { startTransition } = useRouteTransition();
 
-  // The home page has the shopping cart in its place.
-  if (pathname === "/") return null;
+  // The home page has the shopping cart in its place. Studio has its own
+  // full-screen UI — the nav's fixed pull-tab was sitting over the
+  // document editor's own bottom-right action buttons (Publish etc.).
+  if (pathname === "/" || pathname.startsWith("/studio")) return null;
 
   return (
     <nav aria-label="site navigation" className={styles.nav}>
