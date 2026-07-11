@@ -16,6 +16,7 @@ export default async function HobbiesPage() {
         techLabel="Materials used"
         sidebarHeading="pick a hobby"
         footerNote={settings.sidebarNote}
+        footerImageUrl={settings.sidebarFooterImageUrl}
         clipboardText={settings.clipboardText}
         clipboardStickers={settings}
       />

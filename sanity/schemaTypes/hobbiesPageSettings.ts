@@ -21,6 +21,14 @@ export default defineType({
       group: "sidebar",
     }),
     defineField({
+      name: "sidebarFooterImage",
+      type: "image",
+      title: "Sidebar footer note — custom image",
+      description: "The small icon at the top of the footer note. Defaults to a coded flower.",
+      options: { hotspot: true },
+      group: "sidebar",
+    }),
+    defineField({
       name: "clipboardText",
       type: "string",
       title: "Clipboard text",
