@@ -22,6 +22,13 @@ function mulberry32(seed: number) {
   };
 }
 
+/** A seeded [0, 1) random-number generator — the same id always produces
+ * the same sequence, so anything built from it looks randomly placed but
+ * stays put across reloads instead of reshuffling every visit. */
+export function createSeededRandom(id: string): () => number {
+  return mulberry32(hashStringToSeed(id));
+}
+
 export type PinnedTransform = {
   rotation: number;
   offsetX: number;
@@ -32,7 +39,7 @@ export type PinnedTransform = {
  * from its document id. `rotationOverride` lets an editor hand-tune one
  * item in Sanity if the automatic tilt ever looks wrong. */
 export function getPinnedTransform(id: string, rotationOverride?: number): PinnedTransform {
-  const random = mulberry32(hashStringToSeed(id));
+  const random = createSeededRandom(id);
   const rotation = rotationOverride ?? random() * 14 - 7;
   const offsetX = random() * 24 - 12;
   const offsetY = random() * 24 - 12;

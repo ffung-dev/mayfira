@@ -4,7 +4,7 @@ import type { ComponentType, RefObject } from "react";
 import { motion } from "motion/react";
 import { usePersistedDrag } from "@/lib/hooks/usePersistedDrag";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
-import { CART_ITEM_SIZE } from "./cartLayout";
+import { CART_ITEM_SIZE, CART_ITEM_IMAGE_SIZES } from "./cartLayout";
 
 type CartClutterItemProps = {
   id: string;
@@ -33,7 +33,7 @@ export default function CartClutterItem({ id, Icon, imageUrl, x, y, rotate, cons
       className="absolute z-0 aspect-square cursor-grab active:cursor-grabbing"
       style={{ left: x, top: y, x: dragX, y: dragY, width: CART_ITEM_SIZE, rotate }}
     >
-      <IllustrationSlot fill imageUrl={imageUrl} Fallback={Icon} alt="" className="object-contain drop-shadow-sm" />
+      <IllustrationSlot fill sizes={CART_ITEM_IMAGE_SIZES} imageUrl={imageUrl} Fallback={Icon} alt="" className="object-contain drop-shadow-sm" />
     </motion.div>
   );
 }

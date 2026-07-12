@@ -7,8 +7,8 @@ type IllustrationSlotProps = {
   alt: string;
   className?: string;
 } & (
-  | { fill: true; width?: never; height?: never }
-  | { fill?: false; width: number; height: number }
+  | { fill: true; sizes: string; width?: never; height?: never }
+  | { fill?: false; sizes?: never; width: number; height: number }
 );
 
 /** Renders a Sanity-provided image when one exists, otherwise the coded SVG
@@ -24,7 +24,7 @@ export default function IllustrationSlot({ imageUrl, Fallback, alt, className, .
     // fights with Motion's own drag gesture and shows the OS's "can't
     // drop here" cursor instead of actually moving the element.
     if (size.fill) {
-      return <Image src={imageUrl} alt={alt} fill className={className} draggable={false} />;
+      return <Image src={imageUrl} alt={alt} fill sizes={size.sizes} className={className} draggable={false} />;
     }
     return (
       <Image src={imageUrl} alt={alt} width={size.width} height={size.height} className={className} draggable={false} />

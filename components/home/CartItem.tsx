@@ -8,7 +8,7 @@ import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { usePersistedDrag } from "@/lib/hooks/usePersistedDrag";
 import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
-import { CART_ITEM_SIZE } from "./cartLayout";
+import { CART_ITEM_SIZE, CART_ITEM_IMAGE_SIZES } from "./cartLayout";
 
 export type HoverVariant = "bob" | "spin" | "wiggle" | "none";
 
@@ -65,7 +65,7 @@ export default function CartItem({ id, href, label, Icon, imageUrl, x, y, hoverV
         style={{ left: x, top: y, width: CART_ITEM_SIZE }}
       >
         <div className="relative aspect-square w-full">
-          <IllustrationSlot fill imageUrl={imageUrl} Fallback={Icon} alt={label} className="object-contain drop-shadow-md" />
+          <IllustrationSlot fill sizes={CART_ITEM_IMAGE_SIZES} imageUrl={imageUrl} Fallback={Icon} alt={label} className="object-contain drop-shadow-md" />
         </div>
         <span className="font-hand text-xs text-maroon">{label}</span>
       </Link>
@@ -115,7 +115,7 @@ export default function CartItem({ id, href, label, Icon, imageUrl, x, y, hoverV
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="relative h-full w-full"
         >
-          <IllustrationSlot fill imageUrl={imageUrl} Fallback={Icon} alt={label} className="object-contain drop-shadow-md" />
+          <IllustrationSlot fill sizes={CART_ITEM_IMAGE_SIZES} imageUrl={imageUrl} Fallback={Icon} alt={label} className="object-contain drop-shadow-md" />
         </motion.div>
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
           {label}
