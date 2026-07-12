@@ -6,6 +6,7 @@ import type { ComponentType, RefObject } from "react";
 import { motion, type TargetAndTransition } from "motion/react";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
 import { usePersistedDrag } from "@/lib/hooks/usePersistedDrag";
+import { useLayoutSettled } from "@/lib/hooks/useLayoutSettled";
 import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
 import { CART_ITEM_SIZE, CART_ITEM_IMAGE_SIZES } from "./cartLayout";
@@ -54,6 +55,7 @@ export default function CartItem({ id, href, label, Icon, imageUrl, x, y, hoverV
   const { startTransition } = useRouteTransition();
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
   const { x: dragX, y: dragY, onDragEnd } = usePersistedDrag(`mayfira:cart:${id}`);
+  const settled = useLayoutSettled();
 
   // Touch devices skip drag/hover entirely — just a plain tappable icon.
   if (!canHover) {
@@ -88,7 +90,15 @@ export default function CartItem({ id, href, label, Icon, imageUrl, x, y, hoverV
     // (pointer keeps moving, item can't), which feels like the drag has
     // stopped responding; a touch of give avoids that without looking
     // like a bounce.
+    //
+    // key forces a one-time remount once layout has settled (see
+    // useLayoutSettled) — Motion caches its drag-boundary measurement
+    // after the first drag and won't naturally re-check it just because
+    // the page shifted, so this guarantees that first measurement is
+    // taken against the settled layout instead of whatever the page
+    // looked like a frame after paint.
     <motion.div
+      key={settled ? "settled" : "initial"}
       drag
       dragConstraints={constraintsRef}
       dragElastic={0.08}
