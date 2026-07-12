@@ -80,13 +80,18 @@ export default function CartItem({ id, href, label, Icon, imageUrl, x, y, hoverV
     // spins just the icon, not the text floating next to it.
     //
     // Position is left/top (static) plus x/y (Motion's drag offset, from
-    // usePersistedDrag) layered on top — dragElastic/dragMomentum are both
-    // off so a release stops the item dead where it's let go, same as the
-    // clipboard stickers, instead of coasting or snapping back.
+    // usePersistedDrag) layered on top. dragMomentum is off so a release
+    // stops the item dead where it's let go, same as the clipboard
+    // stickers, instead of coasting on release velocity. dragElastic is
+    // a hair above 0 (not exactly 0) — a perfectly rigid boundary makes
+    // Motion's pointer tracking desync from the item right at the edge
+    // (pointer keeps moving, item can't), which feels like the drag has
+    // stopped responding; a touch of give avoids that without looking
+    // like a bounce.
     <motion.div
       drag
       dragConstraints={constraintsRef}
-      dragElastic={0}
+      dragElastic={0.08}
       dragMomentum={false}
       onDragEnd={onDragEnd}
       onDoubleClick={() => {

@@ -27,7 +27,7 @@ export default function CartClutterItem({ id, Icon, imageUrl, x, y, rotate, cons
     <motion.div
       drag
       dragConstraints={constraintsRef}
-      dragElastic={0}
+      dragElastic={0.08}
       dragMomentum={false}
       onDragEnd={onDragEnd}
       className="absolute z-0 aspect-square cursor-grab active:cursor-grabbing"

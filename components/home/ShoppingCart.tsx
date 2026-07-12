@@ -22,28 +22,28 @@ import CartClutterItem from "./CartClutterItem";
 import { getCartItemPosition } from "./cartLayout";
 
 // Grid-cell index (0–11, see getCartItemPosition) for each of the 12 cart
-// items — real items are spread one-per-row rather than grouped together,
-// so the cart doesn't read as "four real items in a corner, clutter
-// everywhere else." Actual on-screen position is this cell plus a
-// per-item seeded jitter, so it looks scattered rather than gridded.
+// items — a clean, even 4×3 grid matching the reference layout, real
+// items spread one-per-row rather than grouped together. Items sit
+// upright (no rotation) and don't overlap by default, so all 12 are
+// clearly visible — everything's still fully draggable from there.
 function buildItems(images: HomePageData): (CartItemData & { key: string })[] {
   return [
-    { key: "about", id: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, ...getCartItemPosition("about", 1), hoverVariant: "bob" },
-    { key: "projects", id: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, ...getCartItemPosition("projects", 5), hoverVariant: "none" },
-    { key: "hobbies", id: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, ...getCartItemPosition("hobbies", 9), hoverVariant: "spin" },
-    { key: "contact", id: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, ...getCartItemPosition("contact", 11), hoverVariant: "wiggle" },
+    { key: "about", id: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, ...getCartItemPosition(1), hoverVariant: "bob" },
+    { key: "projects", id: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, ...getCartItemPosition(5), hoverVariant: "none" },
+    { key: "hobbies", id: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, ...getCartItemPosition(9), hoverVariant: "spin" },
+    { key: "contact", id: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, ...getCartItemPosition(11), hoverVariant: "wiggle" },
   ];
 }
 
 const CLUTTER = [
-  { key: "oranges", Icon: OrangesBagDoodle, imageKey: "orangesBagUrl" as const, ...getCartItemPosition("oranges", 0), rotate: -6 },
-  { key: "bread", Icon: BreadLoafDoodle, imageKey: "breadLoafUrl" as const, ...getCartItemPosition("bread", 2), rotate: 5 },
-  { key: "chips", Icon: ChipBagDoodle, imageKey: "chipBagUrl" as const, ...getCartItemPosition("chips", 3), rotate: -4 },
-  { key: "eggs", Icon: EggCartonDoodle, imageKey: "eggCartonUrl" as const, ...getCartItemPosition("eggs", 4), rotate: -3 },
-  { key: "milk", Icon: MilkCartonDoodle, imageKey: "milkCartonUrl" as const, ...getCartItemPosition("milk", 6), rotate: 4 },
-  { key: "canned", Icon: CannedGoodDoodle, imageKey: "cannedGoodUrl" as const, ...getCartItemPosition("canned", 7), rotate: -5 },
-  { key: "scallions", Icon: ScallionsDoodle, imageKey: "scallionsUrl" as const, ...getCartItemPosition("scallions", 8), rotate: 8 },
-  { key: "cereal", Icon: CerealBoxDoodle, imageKey: "cerealBoxUrl" as const, ...getCartItemPosition("cereal", 10), rotate: 6 },
+  { key: "oranges", Icon: OrangesBagDoodle, imageKey: "orangesBagUrl" as const, ...getCartItemPosition(0), rotate: 0 },
+  { key: "bread", Icon: BreadLoafDoodle, imageKey: "breadLoafUrl" as const, ...getCartItemPosition(2), rotate: 0 },
+  { key: "chips", Icon: ChipBagDoodle, imageKey: "chipBagUrl" as const, ...getCartItemPosition(3), rotate: 0 },
+  { key: "eggs", Icon: EggCartonDoodle, imageKey: "eggCartonUrl" as const, ...getCartItemPosition(4), rotate: 0 },
+  { key: "milk", Icon: MilkCartonDoodle, imageKey: "milkCartonUrl" as const, ...getCartItemPosition(6), rotate: 0 },
+  { key: "canned", Icon: CannedGoodDoodle, imageKey: "cannedGoodUrl" as const, ...getCartItemPosition(7), rotate: 0 },
+  { key: "scallions", Icon: ScallionsDoodle, imageKey: "scallionsUrl" as const, ...getCartItemPosition(8), rotate: 0 },
+  { key: "cereal", Icon: CerealBoxDoodle, imageKey: "cerealBoxUrl" as const, ...getCartItemPosition(10), rotate: 0 },
 ];
 
 export default function ShoppingCart({ images }: { images: HomePageData }) {

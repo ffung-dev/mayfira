@@ -21,12 +21,15 @@ type ClipboardStickerProps = {
  * these aren't navigation. Sized to match the cart items for visual
  * consistency between the two draggable systems.
  *
- * dragMomentum/dragElastic are both off: Motion's defaults let a released
- * drag keep coasting on its release velocity and rubber-band back if
- * pulled past the constraint edge — here it should just stop dead exactly
- * where it's let go, full stop, no coast and no snap-back. Position is
- * remembered across visits via usePersistedDrag, keyed per sticker per
- * page (projects and hobbies each have their own saved layout). */
+ * dragMomentum is off: Motion's default lets a released drag keep
+ * coasting on its release velocity — here it should just stop dead
+ * exactly where it's let go. dragElastic is a hair above 0 rather than
+ * exactly 0 — a perfectly rigid constraint boundary makes Motion's
+ * pointer tracking desync from the sticker right at the edge (pointer
+ * keeps moving, sticker can't), which feels like the drag stopped
+ * responding; a touch of give avoids that. Position is remembered across
+ * visits via usePersistedDrag, keyed per sticker per page (projects and
+ * hobbies each have their own saved layout). */
 export default function ClipboardSticker({ Icon, imageUrl, x, y, rotate, constraintsRef, storageKey }: ClipboardStickerProps) {
   const canDrag = useMediaQuery("(hover: hover) and (pointer: fine)");
   const { x: dragX, y: dragY, onDragEnd } = usePersistedDrag(storageKey);
@@ -43,7 +46,7 @@ export default function ClipboardSticker({ Icon, imageUrl, x, y, rotate, constra
     <motion.div
       drag
       dragConstraints={constraintsRef}
-      dragElastic={0}
+      dragElastic={0.08}
       dragMomentum={false}
       onDragEnd={onDragEnd}
       whileHover={{ scale: 1.08 }}
