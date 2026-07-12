@@ -18,6 +18,7 @@ const STICKERS = [
 type ClipboardPlaceholderProps = {
   text: string;
   stickers: ClipboardStickerUrls;
+  pageKey: string;
 };
 
 /** Empty-state placeholder for Projects/Hobbies — a literal clipboard.
@@ -25,8 +26,10 @@ type ClipboardPlaceholderProps = {
  * document, so Projects and Hobbies can (and do) show different ones.
  * The scattered stickers use the exact same drag-constrained-to-parent
  * mechanic as the homepage cart items, just without a destination —
- * clicking does nothing, they're purely there to fidget with. */
-export default function ClipboardPlaceholder({ text, stickers }: ClipboardPlaceholderProps) {
+ * clicking does nothing, they're purely there to fidget with. `pageKey`
+ * namespaces their saved positions so projects and hobbies each keep
+ * their own arrangement. */
+export default function ClipboardPlaceholder({ text, stickers, pageKey }: ClipboardPlaceholderProps) {
   const constraintsRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -41,7 +44,7 @@ export default function ClipboardPlaceholder({ text, stickers }: ClipboardPlaceh
           boxClassName={styles.paperTextBox}
           className="font-hand text-maroon"
           maxFontSizePx={26}
-          minFontSizePx={12}
+          minFontSizePx={10}
         >
           {text}
         </FitText>
@@ -54,6 +57,7 @@ export default function ClipboardPlaceholder({ text, stickers }: ClipboardPlaceh
             y={sticker.y}
             rotate={sticker.rotate}
             constraintsRef={constraintsRef}
+            storageKey={`mayfira:clipboard:${pageKey}:${sticker.key}`}
           />
         ))}
       </div>

@@ -84,7 +84,7 @@ export default function SidebarTabs({ items, selectedId, onSelect, heading, foot
         <IllustrationSlot imageUrl={footerImageUrl} Fallback={FlowerDoodle} alt="" width={21} height={21} className={styles.sidebarFooterDoodle} />
         <FitText
           as="span"
-          boxClassName="w-full max-h-16 overflow-hidden"
+          boxClassName="w-full max-h-32 overflow-hidden"
           className={`font-hand text-base ${styles.sidebarFooterText}`}
           maxFontSizePx={16}
           minFontSizePx={10}

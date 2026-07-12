@@ -12,6 +12,7 @@ export default async function HobbiesPage() {
     <main className={`flex min-h-screen flex-col items-center gap-8 px-6 pt-16 pb-28 ${patterns.projects}`}>
       <Heading className="text-center text-cream">avid hobbyist who collects hobbies</Heading>
       <ContentBrowser
+        pageKey="hobbies"
         items={hobbies}
         techLabel="Materials used"
         sidebarHeading="pick a hobby"
