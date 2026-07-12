@@ -5,12 +5,15 @@ import Link from "next/link";
 import type { ComponentType, RefObject } from "react";
 import { motion, type TargetAndTransition } from "motion/react";
 import { useMediaQuery } from "@/lib/hooks/useMediaQuery";
+import { usePersistedDrag } from "@/lib/hooks/usePersistedDrag";
 import { useRouteTransition } from "@/components/transition/RouteTransitionContext";
 import IllustrationSlot from "@/components/illustrations/IllustrationSlot";
+import { CART_ITEM_SIZE } from "./cartLayout";
 
 export type HoverVariant = "bob" | "spin" | "wiggle" | "none";
 
 export type CartItemData = {
+  id: string;
   href: string;
   label: string;
   Icon: ComponentType<{ className?: string }>;
@@ -46,10 +49,11 @@ const HOVER_VARIANTS: Record<HoverVariant, TargetAndTransition | undefined> = {
   none: { scale: 1.15 },
 };
 
-export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVariant, constraintsRef }: CartItemProps) {
+export default function CartItem({ id, href, label, Icon, imageUrl, x, y, hoverVariant, constraintsRef }: CartItemProps) {
   const router = useRouter();
   const { startTransition } = useRouteTransition();
   const canHover = useMediaQuery("(hover: hover) and (pointer: fine)");
+  const { x: dragX, y: dragY, onDragEnd } = usePersistedDrag(`mayfira:cart:${id}`);
 
   // Touch devices skip drag/hover entirely — just a plain tappable icon.
   if (!canHover) {
@@ -58,24 +62,33 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
         href={href}
         onClick={() => startTransition()}
         className="absolute z-10 flex flex-col items-center gap-0.5"
-        style={{ left: x, top: y }}
+        style={{ left: x, top: y, width: CART_ITEM_SIZE }}
       >
-        <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={112} height={112} className="h-28 w-28 drop-shadow-md" />
+        <div className="relative aspect-square w-full">
+          <IllustrationSlot fill imageUrl={imageUrl} Fallback={Icon} alt={label} className="object-contain drop-shadow-md" />
+        </div>
         <span className="font-hand text-xs text-maroon">{label}</span>
       </Link>
     );
   }
 
   return (
-    // Outer layer owns drag/position and is the hover-group root; middle
-    // layer (plain div) holds the icon and label as siblings; innermost
-    // motion.div owns ONLY the icon's hover animation. Keeping the label
-    // out of the rotating/bobbing element means a "spin" variant spins
-    // just the icon, not the text floating next to it.
+    // Outer layer owns drag/position/size and is the hover-group root;
+    // middle layer (plain div) holds the icon and label as siblings; the
+    // innermost motion.div owns ONLY the icon's hover animation. Keeping
+    // the label out of the rotating/bobbing element means a "spin" variant
+    // spins just the icon, not the text floating next to it.
+    //
+    // Position is left/top (static) plus x/y (Motion's drag offset, from
+    // usePersistedDrag) layered on top — dragElastic/dragMomentum are both
+    // off so a release stops the item dead where it's let go, same as the
+    // clipboard stickers, instead of coasting or snapping back.
     <motion.div
       drag
       dragConstraints={constraintsRef}
-      dragElastic={0.15}
+      dragElastic={0}
+      dragMomentum={false}
+      onDragEnd={onDragEnd}
       onDoubleClick={() => {
         startTransition();
         router.push(href);
@@ -90,18 +103,19 @@ export default function CartItem({ href, label, Icon, imageUrl, x, y, hoverVaria
           router.push(href);
         }
       }}
-      className="group absolute z-10 cursor-grab active:cursor-grabbing"
-      style={{ left: x, top: y }}
+      className="group absolute z-10 aspect-square cursor-grab active:cursor-grabbing"
+      style={{ left: x, top: y, x: dragX, y: dragY, width: CART_ITEM_SIZE }}
     >
-      <div className="relative flex flex-col items-center">
+      <div className="relative flex h-full w-full flex-col items-center">
         <motion.div
           whileHover={HOVER_VARIANTS[hoverVariant]}
           // Governs the "leaving hover" animation specifically — a plain
           // ease back to rest from wherever the loop was interrupted,
           // instead of inheriting the loop's own transition.
           transition={{ duration: 0.4, ease: "easeOut" }}
+          className="relative h-full w-full"
         >
-          <IllustrationSlot imageUrl={imageUrl} Fallback={Icon} alt={label} width={112} height={112} className="h-28 w-28 drop-shadow-md" />
+          <IllustrationSlot fill imageUrl={imageUrl} Fallback={Icon} alt={label} className="object-contain drop-shadow-md" />
         </motion.div>
         <span className="pointer-events-none absolute -top-7 rounded-full bg-cream px-3 py-1 font-hand text-sm text-maroon opacity-0 shadow-md transition-opacity duration-200 group-hover:opacity-100">
           {label}
