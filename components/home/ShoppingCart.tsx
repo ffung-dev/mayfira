@@ -23,29 +23,25 @@ import CartClutterItem from "./CartClutterItem";
 // x/y are each item's top-left corner, as a percentage of the cart's
 // interior — pre-computed so that every item's full footprint (at
 // CART_ITEM_SIZE from cartLayout.ts) stays inside the 0–100% bounds, on
-// any screen size, with nothing poking outside the cart by default. At
-// 48% each, there's only a narrow band where a center point keeps the
-// whole item on-screen, so this default layout is a tight, overlapping
-// cluster rather than a wide spread — real items still render above
-// clutter (z-10 vs. z-0), so nothing important gets buried under it.
+// any screen size, with nothing poking outside the cart by default.
 function buildItems(images: HomePageData): (CartItemData & { key: string })[] {
   return [
-    { key: "about", id: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, x: "6%", y: "3.6%", hoverVariant: "bob" },
-    { key: "projects", id: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, x: "46%", y: "3.6%", hoverVariant: "none" },
-    { key: "hobbies", id: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, x: "6%", y: "19.6%", hoverVariant: "spin" },
-    { key: "contact", id: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, x: "46%", y: "19.6%", hoverVariant: "wiggle" },
+    { key: "about", id: "about", href: "/about", label: "about", Icon: TeddyBear, imageUrl: images.teddyBearUrl, x: "8%", y: "8.8%", hoverVariant: "bob" },
+    { key: "projects", id: "projects", href: "/projects", label: "projects", Icon: Laptop, imageUrl: images.laptopUrl, x: "66%", y: "6.8%", hoverVariant: "none" },
+    { key: "hobbies", id: "hobbies", href: "/hobbies", label: "hobbies", Icon: YarnBall, imageUrl: images.yarnBallUrl, x: "12%", y: "54.8%", hoverVariant: "spin" },
+    { key: "contact", id: "contact", href: "/contact", label: "contact", Icon: Telephone, imageUrl: images.telephoneUrl, x: "64%", y: "52.8%", hoverVariant: "wiggle" },
   ];
 }
 
 const CLUTTER = [
-  { key: "oranges", Icon: OrangesBagDoodle, imageKey: "orangesBagUrl" as const, x: "26%", y: "0%", rotate: -6 },
-  { key: "bread", Icon: BreadLoafDoodle, imageKey: "breadLoafUrl" as const, x: "52%", y: "11.6%", rotate: 5 },
-  { key: "eggs", Icon: EggCartonDoodle, imageKey: "eggCartonUrl" as const, x: "0%", y: "11.6%", rotate: -3 },
-  { key: "scallions", Icon: ScallionsDoodle, imageKey: "scallionsUrl" as const, x: "26%", y: "23.2%", rotate: 8 },
-  { key: "chips", Icon: ChipBagDoodle, imageKey: "chipBagUrl" as const, x: "14%", y: "6.6%", rotate: -4 },
-  { key: "milk", Icon: MilkCartonDoodle, imageKey: "milkCartonUrl" as const, x: "38%", y: "6.6%", rotate: 4 },
-  { key: "canned", Icon: CannedGoodDoodle, imageKey: "cannedGoodUrl" as const, x: "14%", y: "16.6%", rotate: -5 },
-  { key: "cereal", Icon: CerealBoxDoodle, imageKey: "cerealBoxUrl" as const, x: "38%", y: "16.6%", rotate: 6 },
+  { key: "oranges", Icon: OrangesBagDoodle, imageKey: "orangesBagUrl" as const, x: "38%", y: "0%", rotate: -6 },
+  { key: "bread", Icon: BreadLoafDoodle, imageKey: "breadLoafUrl" as const, x: "76%", y: "30.8%", rotate: 5 },
+  { key: "eggs", Icon: EggCartonDoodle, imageKey: "eggCartonUrl" as const, x: "0%", y: "30.8%", rotate: -3 },
+  { key: "scallions", Icon: ScallionsDoodle, imageKey: "scallionsUrl" as const, x: "38%", y: "61.6%", rotate: 8 },
+  { key: "chips", Icon: ChipBagDoodle, imageKey: "chipBagUrl" as const, x: "0%", y: "0.8%", rotate: -4 },
+  { key: "milk", Icon: MilkCartonDoodle, imageKey: "milkCartonUrl" as const, x: "76%", y: "61.6%", rotate: 4 },
+  { key: "canned", Icon: CannedGoodDoodle, imageKey: "cannedGoodUrl" as const, x: "18%", y: "30.8%", rotate: -5 },
+  { key: "cereal", Icon: CerealBoxDoodle, imageKey: "cerealBoxUrl" as const, x: "56%", y: "32.8%", rotate: 6 },
 ];
 
 export default function ShoppingCart({ images }: { images: HomePageData }) {
