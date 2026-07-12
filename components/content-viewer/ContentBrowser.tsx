@@ -16,6 +16,7 @@ type ContentBrowserProps = {
   footerImageUrl?: string;
   clipboardText: string;
   clipboardStickers: ClipboardStickerUrls;
+  pageKey: string;
 };
 
 export default function ContentBrowser({
@@ -26,6 +27,7 @@ export default function ContentBrowser({
   footerImageUrl,
   clipboardText,
   clipboardStickers,
+  pageKey,
 }: ContentBrowserProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = items.find((item) => item._id === selectedId) ?? null;
@@ -66,7 +68,7 @@ export default function ContentBrowser({
               exit={{ y: 280, opacity: 0, transition: { duration: 0.45, ease: "easeIn" } }}
             >
               <div className={styles.placeholder}>
-                <ClipboardPlaceholder text={clipboardText} stickers={clipboardStickers} />
+                <ClipboardPlaceholder text={clipboardText} stickers={clipboardStickers} pageKey={pageKey} />
               </div>
             </motion.div>
           )}
