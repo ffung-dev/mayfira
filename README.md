@@ -1,6 +1,13 @@
 # mayfira
 my personal site!
 — Next.js (App Router, TypeScript) + Tailwind CSS + Motion for animation, content managed through an embedded Sanity Studio.
+## Interactive Homepage
+
+- Split-screen landing page
+- Draggable shopping cart items
+- Physics-inspired interactions while keeping objects inside the cart
+- Item-based navigation
+- Fully responsive design
 
 ## Local development
 
