@@ -29,7 +29,7 @@ Copy `.env.example` to `.env.local` and fill in your real Sanity project details
 - `NEXT_PUBLIC_SANITY_API_VERSION`
 - `SANITY_API_READ_TOKEN` (only needed if the dataset is private)
 
-Until real values are set, pages render with empty/placeholder states instead of crashing — see `safeFetch` in `lib/sanity/queries.ts`.
+Until real values are set, pages render with empty/placeholder states instead of crashing (thank you to claude) see `safeFetch` in `lib/sanity/queries.ts`.
 
 ## Content model
 
