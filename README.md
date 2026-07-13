@@ -1,6 +1,6 @@
 # mayfira
-
-Fiona's personal site — Next.js (App Router, TypeScript) + Tailwind CSS + Motion for animation, content managed through an embedded Sanity Studio.
+my personal site!
+— Next.js (App Router, TypeScript) + Tailwind CSS + Motion for animation, content managed through an embedded Sanity Studio.
 
 ## Local development
 
