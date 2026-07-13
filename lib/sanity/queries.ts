@@ -151,6 +151,8 @@ type RawContactNote = {
   iconImage?: SanityImageSource;
   url: string;
   rotationOverride?: number;
+  color?: string;
+  outlineColor?: string;
 };
 
 export type ContactNote = {
@@ -163,12 +165,14 @@ export type ContactNote = {
   iconImageUrl?: string;
   url: string;
   rotationOverride?: number;
+  color?: string;
+  outlineColor?: string;
 };
 
 export async function getContactNotes(): Promise<ContactNote[]> {
   const docs = await safeFetch<RawContactNote[]>(
     `*[_type == "contactNote"] | order(orderRank) {
-      _id, platform, value, description, paperStyle, iconKey, iconImage, url, rotationOverride
+      _id, platform, value, description, paperStyle, iconKey, iconImage, url, rotationOverride, color, outlineColor
     }`,
     [],
   );
@@ -184,6 +188,8 @@ export async function getContactNotes(): Promise<ContactNote[]> {
       : undefined,
     url: doc.url,
     rotationOverride: doc.rotationOverride,
+    color: doc.color,
+    outlineColor: doc.outlineColor,
   }));
 }
 
@@ -222,6 +228,8 @@ type RawBulletinItem = {
   image?: SanityImageSource;
   url?: string;
   rotationOverride?: number;
+  color?: string;
+  outlineColor?: string;
 };
 
 export type BulletinItem = {
@@ -232,11 +240,13 @@ export type BulletinItem = {
   imageUrl?: string;
   url?: string;
   rotationOverride?: number;
+  color?: string;
+  outlineColor?: string;
 };
 
 export async function getBulletinItems(): Promise<BulletinItem[]> {
   const docs = await safeFetch<RawBulletinItem[]>(
-    `*[_type == "bulletinItem"] | order(orderRank) { _id, displayStyle, title, text, image, url, rotationOverride }`,
+    `*[_type == "bulletinItem"] | order(orderRank) { _id, displayStyle, title, text, image, url, rotationOverride, color, outlineColor }`,
     [],
   );
   return docs.map((doc) => ({
@@ -247,6 +257,8 @@ export async function getBulletinItems(): Promise<BulletinItem[]> {
     imageUrl: doc.image ? urlFor(doc.image).width(500).height(500).fit("max").url() : undefined,
     url: doc.url,
     rotationOverride: doc.rotationOverride,
+    color: doc.color,
+    outlineColor: doc.outlineColor,
   }));
 }
 

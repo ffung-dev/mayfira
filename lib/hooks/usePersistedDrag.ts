@@ -15,14 +15,20 @@ function readStored(key: string): { x: number; y: number } | null {
 /** Remembers a draggable fidget item's position for the rest of the
  * current visit — via sessionStorage, not localStorage, so it resets
  * once the tab/browser is closed instead of following the visitor back
- * next time. Motion values always start at (0, 0) — matching the item's
- * default CSS position — on both server and first client render, then
- * jump to the saved offset in a layout effect (before the browser
- * paints), so there's no flash back to the default spot when navigating
- * back to the page mid-visit, and no server/client hydration mismatch. */
-export function usePersistedDrag(storageKey: string) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+ * next time.
+ *
+ * `defaultPosition` is where the item sits before it's ever been
+ * dragged (defaults to (0, 0), i.e. wherever its own CSS places it) —
+ * bulletin items pass their seeded "hand-pinned" jitter here instead, so
+ * a drag moves it FROM that jittered spot rather than resetting it to
+ * dead center first. Motion values start there on both server and first
+ * client render, then jump to the saved offset (if any) in a layout
+ * effect — before the browser paints — so there's no flash back to the
+ * default spot when navigating back mid-visit, and no server/client
+ * hydration mismatch. */
+export function usePersistedDrag(storageKey: string, defaultPosition: { x: number; y: number } = { x: 0, y: 0 }) {
+  const x = useMotionValue(defaultPosition.x);
+  const y = useMotionValue(defaultPosition.y);
 
   useLayoutEffect(() => {
     const stored = readStored(storageKey);

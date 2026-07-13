@@ -1,5 +1,7 @@
 import { defineField, defineType } from "sanity";
 
+const HEX_COLOR_PATTERN = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+
 const DISPLAY_STYLES = [
   { title: "Post-it", value: "post-it" },
   { title: "Poster", value: "poster" },
@@ -63,6 +65,20 @@ export default defineType({
       type: "number",
       title: "Rotation override (degrees)",
       description: "Leave blank to use the automatic pinned tilt.",
+    }),
+    defineField({
+      name: "color",
+      type: "string",
+      title: "Background color (hex, optional)",
+      description: 'e.g. "#FFD3D5". Leave blank to use the display style\'s normal color.',
+      validation: (Rule) => Rule.regex(HEX_COLOR_PATTERN, { name: "hex color" }),
+    }),
+    defineField({
+      name: "outlineColor",
+      type: "string",
+      title: "Outline color (hex, optional)",
+      description: 'e.g. "#372417". Leave blank for the default brown outline.',
+      validation: (Rule) => Rule.regex(HEX_COLOR_PATTERN, { name: "hex color" }),
     }),
   ],
   preview: {

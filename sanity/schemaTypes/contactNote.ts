@@ -8,6 +8,8 @@ const PAPER_STYLES = [
   { title: "Notebook paper", value: "notebook-paper" },
 ];
 
+const HEX_COLOR_PATTERN = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+
 const ICON_KEYS = [
   { title: "Email", value: "email" },
   { title: "Instagram", value: "instagram" },
@@ -81,6 +83,20 @@ export default defineType({
       type: "number",
       title: "Rotation override (degrees)",
       description: "Leave blank to use the automatic pinned-note tilt.",
+    }),
+    defineField({
+      name: "color",
+      type: "string",
+      title: "Background color (hex, optional)",
+      description: 'e.g. "#FFD3D5". Leave blank to use the paper style\'s normal color.',
+      validation: (Rule) => Rule.regex(HEX_COLOR_PATTERN, { name: "hex color" }),
+    }),
+    defineField({
+      name: "outlineColor",
+      type: "string",
+      title: "Outline color (hex, optional)",
+      description: 'e.g. "#372417". Leave blank for the default brown outline.',
+      validation: (Rule) => Rule.regex(HEX_COLOR_PATTERN, { name: "hex color" }),
     }),
   ],
   preview: {
