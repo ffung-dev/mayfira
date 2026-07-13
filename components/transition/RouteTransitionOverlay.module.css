@@ -16,86 +16,96 @@
   pointer-events: auto;
 }
 
-/* Popsicle loader — mask-revealed blobs "melt in" onto a striped body
-   sitting on a stick. Stripe colors swapped to the site palette; stick
-   color kept as specified. */
+/* Pan-frying-an-egg loader — pan rocks side to side, egg jiggles.
+   Original credit's colors were all plain hex custom properties, so
+   they're remapped to the site palette here: pan body/handle → ink,
+   pan rim → maroon, egg white → cream. The yolk's yellow/orange is kept
+   close to the source (there's no site token for it, and an ink-toned
+   yolk wouldn't read as an egg anymore). */
 .loader {
-  position: relative;
-  width: 35px;
-  height: 80px;
-}
+  --color-1: var(--color-ink);
+  --color-2: var(--color-maroon);
+  --color-3: rgba(55, 36, 23, 0.3);
+  --color-4: rgba(55, 36, 23, 0.15);
+  --color-5: var(--color-cream);
+  --color-6: color-mix(in srgb, var(--color-cream) 40%, transparent);
+  --color-7: #ffc400;
+  --color-8: #ffae00;
+  --color-9: var(--color-ink);
+  --color-10: color-mix(in srgb, var(--color-cream) 15%, transparent);
+  --size: 1px;
 
-.loader::after {
-  content: "";
-  position: absolute;
-  inset: 0 0 20px;
-  border-radius: 15px 15px 10px 10px;
-  padding: 1px;
-  background: repeating-linear-gradient(-45deg, var(--color-rose) 0 8px, var(--color-maroon) 0 12px) content-box;
-  --c: radial-gradient(farthest-side, #000 94%, #0000);
-  -webkit-mask:
-    linear-gradient(#0000 0 0),
-    var(--c) -10px -10px,
-    var(--c) 15px -14px,
-    var(--c) 9px -6px,
-    var(--c) -12px 9px,
-    var(--c) 14px 9px,
-    var(--c) 23px 27px,
-    var(--c) -8px 35px,
-    var(--c) 50% 50%,
-    linear-gradient(#000 0 0);
-  mask:
-    linear-gradient(#000 0 0),
-    var(--c) -10px -10px,
-    var(--c) 15px -14px,
-    var(--c) 9px -6px,
-    var(--c) -12px 9px,
-    var(--c) 14px 9px,
-    var(--c) 23px 27px,
-    var(--c) -8px 35px,
-    var(--c) 50% 50%,
-    linear-gradient(#0000 0 0);
-  -webkit-mask-composite: destination-out;
-  mask-composite: exclude, add, add, add, add, add, add, add, add;
-  -webkit-mask-repeat: no-repeat;
-  animation: loaderFill 3s infinite;
+  width: calc(100 * var(--size));
+  height: calc(100 * var(--size));
+  display: block;
+  margin: auto;
+  position: relative;
+  background: var(--color-1);
+  border-radius: 50%;
+  box-sizing: border-box;
+  transform-origin: calc(170 * var(--size)) calc(50 * var(--size));
+  border: calc(4 * var(--size)) solid var(--color-2);
+  box-shadow:
+    calc(3 * var(--size)) calc(4 * var(--size)) var(--color-3) inset,
+    0 0 calc(6 * var(--size)) var(--color-4) inset;
+  animation: panmov 0.4s ease-in-out infinite alternate;
 }
 
 .loader::before {
   content: "";
   position: absolute;
-  inset: 50% calc(50% - 4px) 0;
-  border-radius: 50px;
-  background: var(--color-popsicle-stick);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) skew(-15deg, 15deg) rotate(-15deg);
+  width: calc(55 * var(--size));
+  height: calc(53 * var(--size));
+  background: var(--color-5);
+  background-image:
+    radial-gradient(circle calc(3 * var(--size)), var(--color-6) 90%, transparent 10%),
+    radial-gradient(circle calc(12 * var(--size)), var(--color-7) 90%, transparent 10%),
+    radial-gradient(circle calc(12 * var(--size)), var(--color-8) 100%, transparent 0);
+  background-repeat: no-repeat;
+  background-position:
+    calc(-4 * var(--size)) calc(-6 * var(--size)),
+    calc(-2 * var(--size)) calc(-2 * var(--size)),
+    calc(-1 * var(--size)) calc(-1 * var(--size));
+  box-shadow:
+    calc(-2 * var(--size)) calc(-3 * var(--size)) var(--color-4) inset,
+    0 0 calc(4 * var(--size)) var(--color-3) inset;
+  border-radius: 47% 36% 50% 50% / 49% 45% 42% 44%;
+  animation: ylmov 0.6s ease-in-out infinite alternate;
 }
 
-@keyframes loaderFill {
-  0% {
-    -webkit-mask-size: auto, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
-  }
+.loader::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: calc(48 * var(--size));
+  height: calc(15 * var(--size));
+  width: calc(70 * var(--size));
+  background: var(--color-9);
+  border-radius: 0 calc(8 * var(--size)) calc(8 * var(--size)) 0;
+  box-shadow: calc(3 * var(--size)) 0 calc(3 * var(--size)) var(--color-10) inset;
+  transform: rotate(5deg) translateX(calc(3 * var(--size)));
+}
+
+@keyframes panmov {
+  0%,
   10% {
-    -webkit-mask-size: auto, 25px 25px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+    transform: rotate(5deg);
   }
-  20% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
-  }
-  30% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 0 0, 0 0, 0 0, 0 0, 0 0;
-  }
-  40% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 0 0, 0 0, 0 0, 0 0;
-  }
-  50% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 0 0, 0 0, 0 0;
-  }
-  60% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 25px 25px, 0 0, 0 0;
-  }
-  70% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 25px 25px, 25px 25px, 0 0;
-  }
-  80%,
+  90%,
   100% {
-    -webkit-mask-size: auto, 25px 25px, 25px 25px, 30px 30px, 30px 30px, 25px 25px, 25px 25px, 25px 25px, 200% 200%;
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes ylmov {
+  to {
+    border-radius: 50% 36% 50% 50% / 49% 50% 45% 45%;
+    background-position:
+      calc(-2 * var(--size)) calc(-4 * var(--size)),
+      calc(2 * var(--size)) calc(2 * var(--size)),
+      calc(1 * var(--size)) calc(1 * var(--size));
   }
 }
