@@ -93,7 +93,7 @@ function DraggableItem({
             }
           : undefined
       }
-      className={`${styles.dragLayer} ${url ? "cursor-grab active:cursor-grabbing" : "cursor-grab active:cursor-grabbing"}`}
+      className={`${styles.dragLayer} cursor-grab active:cursor-grabbing`}
       style={{ x: dragX, y: dragY }}
     >
       <motion.div

@@ -26,6 +26,14 @@
   gap: 2.25rem 1.75rem;
 }
 
+/* The drag-owning outer layer for every draggable item — see
+   PinnedNote.tsx / BulletinItemCard.tsx / Polaroid.tsx. No visual style
+   of its own, just the flex-layout slot; it shrink-wraps to whatever
+   visual element (.paper, .polaroid, .decorationImage) is nested inside. */
+.dragLayer {
+  flex: none;
+}
+
 /* ---- pinned note ---- */
 
 /* The pin now lives INSIDE .paper (see PinnedNote.tsx etc.) rather than
