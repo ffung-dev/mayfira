@@ -58,16 +58,23 @@ function DraggableItem({
   const pin = showPin ? <span className={styles.pin} aria-hidden /> : null;
 
   if (!canDrag) {
-    const Tag = url ? "a" : "div";
+    const staticStyle = {
+      ...colorStyle,
+      transform: `rotate(${rotation}deg) translate(${offsetX}px, ${offsetY}px)`,
+    };
+    if (url) {
+      return (
+        <a href={url} target="_blank" rel="noopener noreferrer" className={innerClassName} style={staticStyle}>
+          {pin}
+          {children}
+        </a>
+      );
+    }
     return (
-      <Tag
-        {...(url ? { href: url, target: "_blank", rel: "noopener noreferrer" } : {})}
-        className={innerClassName}
-        style={{ ...colorStyle, transform: `rotate(${rotation}deg) translate(${offsetX}px, ${offsetY}px)` }}
-      >
+      <div className={innerClassName} style={staticStyle}>
         {pin}
         {children}
-      </Tag>
+      </div>
     );
   }
 
